@@ -1,0 +1,29 @@
+[agents]
+max_threads = 4
+max_depth = 1
+
+[[hooks.PreToolUse]]
+matcher = "Bash|Write|Edit|MultiEdit"
+
+[[hooks.PreToolUse.hooks]]
+type = "command"
+command = 'python3 "$(git rev-parse --show-toplevel)/hooks/pre-tool-use/product-wiki-guard.py"'
+timeout = 30
+statusMessage = "Checking Product Wiki guardrails"
+
+[[hooks.PostToolUse]]
+matcher = "Bash|Write|Edit|MultiEdit"
+
+[[hooks.PostToolUse.hooks]]
+type = "command"
+command = 'python3 "$(git rev-parse --show-toplevel)/hooks/post-tool-use/capture-evidence.py"'
+timeout = 30
+statusMessage = "Recording Product Wiki evidence"
+
+[[hooks.Stop]]
+
+[[hooks.Stop.hooks]]
+type = "command"
+command = 'node "$(git rev-parse --show-toplevel)/scripts/hook-loop.mjs" --event stop'
+timeout = 120
+statusMessage = "Running Product Wiki loop"

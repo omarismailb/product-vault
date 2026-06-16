@@ -1,0 +1,40 @@
+{
+  "checks": [
+    {
+      "id": "check.product-wiki.wiki-lint",
+      "covers": ["wiki.index", "wiki.log"],
+      "kind": "lint",
+      "command": "node scripts/wiki-lint.mjs"
+    },
+    {
+      "id": "check.product-wiki.proposal-lint",
+      "covers": [
+        "proposal.example",
+        "proposal.weekend-flight-change",
+        "proposal.cit.search-plans"
+      ],
+      "kind": "lint",
+      "command": "node scripts/proposal-lint.mjs"
+    },
+    {
+      "id": "check.product-wiki.proposal-traceability",
+      "covers": [
+        "proposal.example",
+        "proposal.weekend-flight-change",
+        "proposal.cit.search-plans"
+      ],
+      "kind": "lint",
+      "command": "node scripts/proposal-traceability-lint.mjs"
+    },
+    {
+      "id": "check.product-wiki.golden-evals",
+      "covers": [
+        "proposal.weekend-flight-change",
+        "ac.self-serve-flight-reschedule.options-within-60s",
+        "ac.self-serve-flight-reschedule.high-fare-confirmation"
+      ],
+      "kind": "eval",
+      "command": "node scripts/eval-golden.mjs"
+    }
+  ]
+}

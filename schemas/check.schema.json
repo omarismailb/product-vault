@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:product-wiki:schema:check",
+  "title": "Product Wiki executable check",
+  "type": "object",
+  "required": ["id", "covers", "kind", "command"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^check\\.[a-z0-9.-]+$"
+    },
+    "covers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9.-]+$"
+      },
+      "minItems": 1
+    },
+    "kind": {
+      "enum": ["unit", "integration", "e2e", "lint", "typecheck", "manual", "eval"]
+    },
+    "command": {
+      "type": "string"
+    },
+    "evidence_path": {
+      "type": "string"
+    }
+  }
+}

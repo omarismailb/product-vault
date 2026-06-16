@@ -1,0 +1,43 @@
+{
+  "name": "product-wiki",
+  "version": "1.0.0",
+  "description": "A product wiki harness for building software with coding agents.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omarismailb/product-wiki.git"
+  },
+  "bugs": {
+    "url": "https://github.com/omarismailb/product-wiki/issues"
+  },
+  "homepage": "https://github.com/omarismailb/product-wiki#readme",
+  "keywords": [
+    "ai-agents",
+    "codex",
+    "claude-code",
+    "product-management",
+    "spec-driven-development",
+    "agent-harness"
+  ],
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/product-wiki-check.mjs",
+    "doctor": "node scripts/doctor.mjs",
+    "sync:dry-run": "node scripts/sync-managed.mjs --target .",
+    "wiki:lint": "node scripts/wiki-lint.mjs",
+    "proposal:lint": "node scripts/proposal-lint.mjs",
+    "proposal-traceability:lint": "node scripts/proposal-traceability-lint.mjs",
+    "checks:lint": "node scripts/checks-lint.mjs",
+    "checks:run": "node scripts/checks-lint.mjs --run",
+    "eval": "node scripts/eval-golden.mjs",
+    "hooks:check": "node scripts/hook-loop.mjs --check",
+    "plugin:lint": "node scripts/plugin-lint.mjs",
+    "routines:check": "node scripts/routine-runner.mjs --check",
+    "routines:list": "node scripts/routine-runner.mjs --list",
+    "routines:run": "node scripts/routine-runner.mjs --all",
+    "test": "npm run check"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

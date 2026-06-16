@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:product-wiki:schema:traceability-map",
+  "title": "Product Wiki traceability map",
+  "type": "object",
+  "required": ["wiki_unit", "checks", "code_paths"],
+  "properties": {
+    "wiki_unit": { "type": "string" },
+    "checks": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "code_paths": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "last_verified": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "product-wiki",
+  "version": "1.0.0",
+  "description": "A product wiki harness for building software with coding agents.",
+  "author": {
+    "name": "Omar Ismail",
+    "url": "https://github.com/omarismailb"
+  },
+  "homepage": "https://github.com/omarismailb/product-wiki#readme",
+  "repository": "https://github.com/omarismailb/product-wiki",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "claude-code",
+    "agent-skills",
+    "product-management",
+    "spec-driven-development",
+    "software-architecture"
+  ],
+  "skills": "./.agents/skills/",
+  "interface": {
+    "displayName": "Product Wiki",
+    "shortDescription": "Route product requests through a living product wiki before code.",
+    "longDescription": "Product Wiki helps coding agents turn feature ideas, bug reports, and workflow changes into reviewed product wiki changes, executable checks, and implementation steps before code.",
+    "developerName": "Omar Ismail",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/omarismailb/product-wiki",
+    "defaultPrompt": [
+      "Draft the first product wiki for this repo.",
+      "Turn this feature request into a wiki proposal.",
+      "Compile the approved proposal into checks and code."
+    ],
+    "brandColor": "#111827"
+  }
+}

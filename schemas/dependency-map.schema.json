@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:product-wiki:schema:dependency-map",
+  "title": "Product Wiki dependency map",
+  "type": "object",
+  "required": ["unit", "depends_on"],
+  "properties": {
+    "unit": { "type": "string" },
+    "depends_on": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "code_paths": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "checks": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

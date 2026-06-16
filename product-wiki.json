@@ -1,0 +1,86 @@
+{
+  "name": "product-wiki",
+  "version": "1.0.0",
+  "repository": "https://github.com/omarismailb/product-wiki",
+  "license": "MIT",
+  "minimum_node": "18",
+  "model": "living-product-wiki",
+  "ownership": {
+    "managed_core": [
+      ".agents/skills",
+      ".claude/skills",
+      ".claude/agents",
+      ".codex/agents",
+      "hooks",
+      "routines",
+      "schemas",
+      "scripts",
+      "templates",
+      "checks/README.md",
+      "evals/golden/README.md",
+      "tests/README.md"
+    ],
+    "merge_required": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      "CONSTITUTION.md",
+      ".claude/settings.json",
+      ".codex/config.toml",
+      ".github/workflows/wiki-checks.yml",
+      ".github/workflows/product-wiki-routines.yml"
+    ],
+    "create_if_missing": [
+      "wiki/index.md",
+      "wiki/log.md",
+      "wiki/design-system",
+      "wiki/glossary",
+      "intake/proposals/template.md",
+      "checks/manifest.json",
+      ".gitignore"
+    ],
+    "source_only": [
+      ".codex-plugin/plugin.json",
+      "README.md",
+      "LICENSE",
+      "CONTRIBUTING.md",
+      "SECURITY.md",
+      "CODE_OF_CONDUCT.md",
+      "SUPPORT.md",
+      "CHANGELOG.md",
+      "VERSION",
+      "product-wiki.json",
+      "package.json",
+      "docs",
+      "examples",
+      ".github/ISSUE_TEMPLATE",
+      ".github/pull_request_template.md"
+    ],
+    "user_owned": [
+      "wiki/actors",
+      "wiki/jobs",
+      "wiki/stories",
+      "wiki/acceptance-criteria",
+      "wiki/rules",
+      "wiki/journeys",
+      "wiki/capabilities",
+      "wiki/outcomes",
+      "wiki/non-goals",
+      "wiki/assumptions",
+      "wiki/decisions",
+      "intake/raw",
+      "intake/proposals",
+      "intake/archive",
+      "checks/manifest.json",
+      "application code",
+      "application tests"
+    ]
+  },
+  "commands": {
+    "check": "node scripts/product-wiki-check.mjs",
+    "doctor": "node scripts/doctor.mjs",
+    "hook_loop": "node scripts/hook-loop.mjs --event manual",
+    "routines": "node scripts/routine-runner.mjs --all",
+    "sync_plan": "node scripts/sync-managed.mjs --target <repo>",
+    "sync_apply": "node scripts/sync-managed.mjs --target <repo> --write"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "routines": [
+    {
+      "id": "routine.wiki-health",
+      "name": "Wiki health",
+      "mode": "deterministic",
+      "cadence": "weekly, before large features, and after imports",
+      "playbook": "routines/wiki-health.md",
+      "purpose": "Catch broken wiki structure and stale product-wiki hygiene before the agent relies on it.",
+      "commands": [
+        "node scripts/wiki-lint.mjs"
+      ],
+      "agent_follow_up": "Use reconcile-wiki for stale drafts, missing links, or judgement calls."
+    },
+    {
+      "id": "routine.traceability-drift",
+      "name": "Traceability drift",
+      "mode": "deterministic",
+      "cadence": "after implementation and in scheduled maintenance",
+      "playbook": "routines/traceability-drift.md",
+      "purpose": "Keep proposals, acceptance criteria, and check coverage linked.",
+      "commands": [
+        "node scripts/proposal-traceability-lint.mjs",
+        "node scripts/checks-lint.mjs"
+      ],
+      "agent_follow_up": "Use reconcile-wiki when a missing link needs product judgement."
+    },
+    {
+      "id": "routine.verification",
+      "name": "Verification",
+      "mode": "deterministic",
+      "cadence": "before accepting implementation and in CI",
+      "playbook": "checks/README.md",
+      "purpose": "Run the executable checks that prove product-wiki claims.",
+      "commands": [
+        "node scripts/checks-lint.mjs --run"
+      ],
+      "agent_follow_up": "Use generate-checks if an active acceptance criterion lacks executable coverage."
+    },
+    {
+      "id": "routine.architecture-drift",
+      "name": "Architecture drift",
+      "mode": "agent-review",
+      "cadence": "after several features or when refactor pressure appears",
+      "playbook": "routines/architecture-drift.md",
+      "purpose": "Look for duplicate capabilities, mixed ownership, and decisions contradicted by implementation.",
+      "commands": [],
+      "agent_follow_up": "Use review-architecture, then raise a proposal if a refactor or decision needs approval."
+    },
+    {
+      "id": "routine.design-drift",
+      "name": "Design drift",
+      "mode": "agent-review",
+      "cadence": "after UI-heavy changes",
+      "playbook": "routines/design-drift.md",
+      "purpose": "Compare UI implementation against the product wiki's design-system intent.",
+      "commands": [],
+      "agent_follow_up": "Use reconcile-wiki and generate-checks for design-system gaps."
+    }
+  ]
+}

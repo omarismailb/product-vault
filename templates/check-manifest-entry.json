@@ -1,0 +1,6 @@
+{
+  "id": "check.example.behaviour",
+  "covers": ["ac.example.behaviour"],
+  "kind": "unit",
+  "command": "npm test -- example.test"
+}
