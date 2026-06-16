@@ -50,11 +50,21 @@ Product Wiki uses the useful parts without copying their surface shape:
 
 The Product Wiki-specific addition is the persistent product wiki: stable natural-language units linked to checks and code over time.
 
-## Template rule
+## Contract rule
 
 Templates are part of the executable process.
 When a skill names a template, the agent must load it before writing the artifact.
-If it cannot load the template, it must stop rather than reconstructing the shape from schemas or examples.
+If it cannot load the template, it should repair managed contracts first:
+
+```bash
+node scripts/repair-contracts.mjs --write
+node scripts/template-lint.mjs
+node scripts/skill-lint.mjs
+```
+
+If repair succeeds, continue.
+If repair fails, stop before writing canonical wiki, proposal, import, compiler-plan, or check-manifest files.
+This keeps the harness resilient without letting the agent invent the source-of-truth shape.
 
 `node scripts/template-lint.mjs` and `node scripts/skill-lint.mjs` make this visible in CI.
 

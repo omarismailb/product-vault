@@ -11,8 +11,10 @@ Use the lightest safe path.
 ## Template contract
 
 For medium or high-risk changes, load `templates/compiler-plan-template.md` before implementation.
-If the template is missing, stop and report the missing path.
-Do not invent a plan shape from memory.
+If the template is missing, do not invent a plan shape from memory.
+First run `node scripts/repair-contracts.mjs --write`, then re-run `node scripts/template-lint.mjs`.
+Continue if repair succeeds.
+Stop only if the canonical contract cannot be restored.
 
 ## Choose path by blast radius
 

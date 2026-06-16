@@ -22,8 +22,10 @@ Before drafting, load these files:
 - `templates/proposal-template.md`
 - `.agents/skills/propose-change/references/proposal-rubric.md`
 
-If either file is missing, stop and report the missing path.
-Do not infer the proposal shape from schemas or previous examples when the template cannot be loaded.
+If either file is missing, do not infer the proposal shape from schemas or previous examples.
+First run `node scripts/repair-contracts.mjs --write`, then re-run `node scripts/template-lint.mjs` and `node scripts/skill-lint.mjs`.
+Continue if repair succeeds.
+Stop only if the canonical contract cannot be restored.
 
 ## Workflow
 

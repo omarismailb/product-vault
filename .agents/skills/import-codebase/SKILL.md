@@ -29,8 +29,10 @@ Before writing import artifacts, load:
 - `templates/import-proposal-template.md`
 - `references/brownfield-import-rubric.md`
 
-If any path is missing, stop and report it.
-Do not infer import structure from schemas or lints.
+If any path is missing, do not infer import structure from schemas or lints.
+First run `node scripts/repair-contracts.mjs --write`, then re-run `node scripts/template-lint.mjs` and `node scripts/skill-lint.mjs`.
+Continue if repair succeeds.
+Stop only if the canonical contract cannot be restored.
 
 ## Phase 1 — Inventory the WHOLE codebase (mandatory, do this first)
 

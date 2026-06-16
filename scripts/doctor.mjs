@@ -82,6 +82,7 @@ const commonRequired = [
   "scripts/hook-loop.mjs",
   "scripts/plugin-lint.mjs",
   "scripts/product-wiki-check.mjs",
+  "scripts/repair-contracts.mjs",
   "scripts/routine-runner.mjs",
   "scripts/sync-managed.mjs",
   "scripts/doctor.mjs",

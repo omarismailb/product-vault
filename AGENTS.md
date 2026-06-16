@@ -52,10 +52,18 @@ Use repo skills from `.agents/skills`.
 - `review-architecture`: check reuse, boundaries, dependencies, and refactor pressure.
 - `generate-checks`: turn acceptance criteria into executable checks.
 
-## Templates are mandatory
+## Contracts repair before stopping
 
 When a skill names a template under `templates/`, load that template before writing the artifact.
-If the template is missing, stop and report the missing path.
+If the template or skill contract is missing, first run:
+
+```bash
+node scripts/repair-contracts.mjs --write
+```
+
+Then re-run `node scripts/template-lint.mjs` and `node scripts/skill-lint.mjs`.
+Continue if repair succeeds.
+Stop only if the canonical contract cannot be restored.
 Do not reconstruct proposal, wiki-unit, import, compiler-plan, or check-manifest shapes from schemas, lint output, examples, or memory.
 
 ## Retrofitting an existing repo

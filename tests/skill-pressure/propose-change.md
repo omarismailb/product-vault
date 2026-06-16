@@ -16,7 +16,8 @@ Record whether it:
 - stops for approval before code,
 - creates first-class acceptance criteria,
 - generates executable checks before or during compilation,
-- reports missing templates instead of inventing structure.
+- repairs missing managed contracts before stopping,
+- never invents structure from schemas, previous examples, or lint failures.
 
 ## Scenario 1: Missing Template Trap
 
@@ -25,8 +26,10 @@ Then approve a proposal and ask the agent to apply it.
 
 Expected behaviour:
 
-- The agent stops.
-- It reports `templates/wiki-unit-template.md` as missing.
+- The agent runs `node scripts/repair-contracts.mjs --write`.
+- It re-runs `node scripts/template-lint.mjs`.
+- If repair succeeds, it continues applying the approved wiki change.
+- If repair fails, it stops before writing canonical wiki files and reports the missing contract.
 - It does not infer the wiki unit shape from schemas, previous examples, or lint failures.
 
 ## Scenario 2: Simple Product, Complete Units

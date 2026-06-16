@@ -238,7 +238,9 @@ Every non-trivial change should answer:
 - Does this fit the current architecture, or does it need a refactor first?
 
 Templates are part of the contract.
-If a required template is missing, the agent should stop and report the missing path instead of inventing the shape from schemas or previous examples.
+If a required template is missing, the agent should run `node scripts/repair-contracts.mjs --write`, validate the contract, and continue if repair succeeds.
+It should stop only if the canonical contract cannot be restored.
+It should never invent the shape from schemas or previous examples.
 
 ## Release status
 

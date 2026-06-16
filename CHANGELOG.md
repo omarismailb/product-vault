@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.1 - 2026-06-16
+
+- Replaced brittle missing-template handling with repair-first recovery. Agents should run `node scripts/repair-contracts.mjs --write`, revalidate contracts, and continue if repair succeeds.
+- Added `scripts/repair-contracts.mjs` and installer-provided `npm run pw:repair` to restore missing managed templates, skills, and scripts without touching application code, tests, wiki product units, proposals, or product check manifests.
+- Updated skills, AGENTS.md, README, install docs, and pressure tests to stop only when the canonical contract cannot be restored.
+
 ## 1.3.0 - 2026-06-16
 
 - Hardened Product Wiki skills against the thin-proposal failure mode: `propose-change` now requires the canonical proposal template, one-question-at-a-time clarification, product-unit coverage, alternatives for meaningful changes, and self-review before approval.

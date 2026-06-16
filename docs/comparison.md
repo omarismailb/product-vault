@@ -36,7 +36,7 @@ Future releases should be driven by real repo use: where import, proposal, compi
 
 - Skills first, because normal product requests should route naturally.
 - Three reviewer agents, because more agents would add ceremony before the repo has earned it.
-- Templates as contracts, because agents should not reverse-engineer artifact shapes from schemas.
+- Templates as contracts with repair-first recovery, because agents should not reverse-engineer artifact shapes from schemas but the harness should not collapse over a missing managed file.
 - One-question-at-a-time clarification for meaningful uncertainty, because stacked questions hide product decisions.
 - Check-first compilation for behaviour changes, because practical determinism only matters when checks run against code.
 - Explicit upgrades, because silently changing hooks and agent rules in installed repos is unsafe.

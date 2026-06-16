@@ -71,6 +71,26 @@ That makes normal product requests route through Product Wiki immediately while 
 If the target repo has a `package.json`, the installer also adds collision-free `pw:*` scripts (for example `npm run pw:check`, `npm run pw:doctor`, `npm run pw:checks-run`) without touching the repo's own scripts.
 You can always call the scripts directly with `node scripts/...`.
 
+## Repair managed contracts
+
+If a managed template, skill, or script is missing, do not recreate it by hand.
+Run:
+
+```bash
+node scripts/repair-contracts.mjs --write
+node scripts/template-lint.mjs
+node scripts/skill-lint.mjs
+```
+
+If the repo has package scripts from the installer, this is:
+
+```bash
+npm run pw:repair
+```
+
+The repair command restores managed Product Wiki contracts only.
+It does not edit application code, application tests, product wiki units, proposals, or the product's check manifest.
+
 ## Enforcement
 
 The approval gate is enforced deterministically: `node scripts/product-wiki-check.mjs` runs `intent-lint`, which fails if an acceptance criterion is `active` without an approved or implemented proposal, or if an executable check does not cover a criterion.

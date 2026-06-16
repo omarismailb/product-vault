@@ -15,8 +15,10 @@ This is the point where the wiki changes before code.
 - Application code is not edited during this skill.
 - `templates/wiki-unit-template.md` exists and can be read.
 
-If the template is missing, stop and report the missing path.
-Do not infer wiki unit structure from schemas, lints, previous examples, or memory.
+If the template is missing, do not infer wiki unit structure from schemas, lints, previous examples, or memory.
+First run `node scripts/repair-contracts.mjs --write`, then re-run `node scripts/template-lint.mjs`.
+Continue if repair succeeds.
+Stop only if the canonical contract cannot be restored.
 
 ## Workflow
 

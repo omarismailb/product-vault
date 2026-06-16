@@ -202,6 +202,7 @@ function mergePackageScripts() {
     "pw:wiki-links": "node scripts/wiki-link-lint.mjs",
     "pw:import-coverage": "node scripts/import-coverage.mjs",
     "pw:routines": "node scripts/routine-runner.mjs --all",
+    "pw:repair": "node scripts/repair-contracts.mjs --write",
   };
   pkg.scripts = pkg.scripts || {};
   const added = [];
