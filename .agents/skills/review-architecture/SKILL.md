@@ -1,6 +1,6 @@
 ---
 name: review-architecture
-description: Use before or during compilation for changes that affect architecture, reuse, data ownership, module boundaries, dependencies, security, or refactor pressure.
+description: Use when a change affects architecture, reuse, data ownership, module boundaries, dependencies, security, migration, or refactor pressure.
 ---
 
 # Review Architecture

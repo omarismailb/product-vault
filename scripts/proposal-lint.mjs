@@ -36,7 +36,7 @@ function frontmatter(text) {
 const files = [
   ...walk(path.join(ROOT, "intake/proposals")),
   ...walk(path.join(ROOT, "examples")),
-];
+].filter((file) => path.basename(file) !== "template.md");
 
 const errors = [];
 let count = 0;
@@ -79,6 +79,52 @@ for (const file of files) {
   }
   if (!/##\s+Open questions/i.test(parsed.body) && parsed.data.status === "awaiting-approval") {
     errors.push(`${rel}: awaiting proposals should include "## Open questions"`);
+  }
+
+  const requiredSections = [
+    "Request",
+    "Why now",
+    "Request type and risk",
+    "Product wiki impact",
+    "Proposed wiki changes",
+    "Acceptance criteria",
+    "Checks to generate",
+    "Reuse or refactor question",
+    "Out of scope",
+    "Self-review",
+  ];
+
+  for (const section of requiredSections) {
+    const pattern = new RegExp(`##\\s+${section.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i");
+    if (!pattern.test(parsed.body)) errors.push(`${rel}: missing "## ${section}" section`);
+  }
+
+  const unitFamilies = [
+    "Actor",
+    "Job",
+    "Story",
+    "Journey",
+    "Capability",
+    "Rule",
+    "Acceptance criterion",
+    "Outcome",
+    "Non-goal",
+    "Assumption",
+    "Glossary",
+    "Decision",
+  ];
+
+  if (/##\s+Product wiki impact/i.test(parsed.body)) {
+    const impactSection = parsed.body.split(/##\s+Product wiki impact/i)[1]?.split(/\n##\s+/)[0] || "";
+    for (const unit of unitFamilies) {
+      if (!impactSection.includes(unit)) {
+        errors.push(`${rel}: product wiki impact missing unit family "${unit}"`);
+      }
+    }
+  }
+
+  if (/\b(TBD|TODO|fill in|replace with)\b/i.test(parsed.body)) {
+    errors.push(`${rel}: contains unresolved placeholder text`);
   }
 }
 

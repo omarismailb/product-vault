@@ -29,14 +29,34 @@ Reviewer agents are called when fresh context helps.
 
 Each production skill should have:
 
-- A clear trigger description.
+- A clear trigger description that starts with "Use when" and does not summarize the workflow.
 - A short workflow in `SKILL.md`.
 - References for deep rubrics and examples.
 - Templates for repeatable outputs.
 - Deterministic scripts where validation matters.
 - At least one golden eval case.
+- Pressure scenarios for failure modes agents are likely to rationalize away.
 
 This follows the skill-creator pattern: keep `SKILL.md` lean, put detailed guidance in references, and use scripts for deterministic checks.
+
+## Patterns adopted from comparable systems
+
+Product Wiki uses the useful parts without copying their surface shape:
+
+- Spec Kit: separate specification, clarification, planning, tasks, and validation gates.
+- Superpowers: one-question-at-a-time discovery, alternatives before implementation, self-review, skill pressure testing, and evidence before completion.
+- BMAD: stronger elicitation, project context, brownfield awareness, and adversarial review.
+- Kiro: durable steering/spec files plus hooks for recurring work.
+
+The Product Wiki-specific addition is the persistent product wiki: stable natural-language units linked to checks and code over time.
+
+## Template rule
+
+Templates are part of the executable process.
+When a skill names a template, the agent must load it before writing the artifact.
+If it cannot load the template, it must stop rather than reconstructing the shape from schemas or examples.
+
+`node scripts/template-lint.mjs` and `node scripts/skill-lint.mjs` make this visible in CI.
 
 ## Current skills
 

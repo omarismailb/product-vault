@@ -18,9 +18,9 @@ You still speak to the coding agent normally: "add this feature", "fix this bug"
 
 Instead of going straight to code, the harness runs a chain of skills:
 
-1. `propose-change` clarifies the request and drafts a proposed wiki change.
+1. `propose-change` clarifies the request, asks material questions one at a time, and drafts a proposed wiki change from the canonical template.
 2. `apply-wiki-change` updates the product wiki after human approval.
-3. `compile-change` turns that approved wiki change into design decisions, executable checks, an implementation plan, code, and verification.
+3. `compile-change` turns that approved wiki change into design decisions, executable checks, an implementation plan, code, and verification evidence.
 4. `routine-runner` runs the deterministic loops that can pass or fail.
 5. `reconcile-wiki` handles the judgement loop: fixing safe links and raising proposals when the wiki, checks, architecture, design system, and code drift.
 
@@ -236,6 +236,9 @@ Every non-trivial change should answer:
 - What must remain true?
 - Which checks will run against the code?
 - Does this fit the current architecture, or does it need a refactor first?
+
+Templates are part of the contract.
+If a required template is missing, the agent should stop and report the missing path instead of inventing the shape from schemas or previous examples.
 
 ## Release status
 

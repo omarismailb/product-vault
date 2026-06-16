@@ -3,6 +3,8 @@
 import { spawnSync } from "node:child_process";
 
 const steps = [
+  ["template-lint", ["scripts/template-lint.mjs"]],
+  ["skill-lint", ["scripts/skill-lint.mjs"]],
   ["wiki-lint", ["scripts/wiki-lint.mjs"]],
   ["wiki-link-lint", ["scripts/wiki-link-lint.mjs"]],
   ["proposal-lint", ["scripts/proposal-lint.mjs"]],

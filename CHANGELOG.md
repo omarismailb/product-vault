@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.0 - 2026-06-16
+
+- Hardened Product Wiki skills against the thin-proposal failure mode: `propose-change` now requires the canonical proposal template, one-question-at-a-time clarification, product-unit coverage, alternatives for meaningful changes, and self-review before approval.
+- Made templates first-class contracts. Skills now stop when required templates are missing instead of inferring artifact shapes from schemas, lints, examples, or memory.
+- Expanded proposal, import proposal, wiki unit, and compiler plan templates to cover all product wiki units, risk, architecture/design impact, checks, and self-review.
+- Added `scripts/template-lint.mjs` and `scripts/skill-lint.mjs`, and wired both into `node scripts/product-wiki-check.mjs` and `npm run check`.
+- Strengthened proposal linting so real proposals must include the core review sections and every product wiki unit family.
+- Added skill pressure scenarios for missing templates, simple products, high-risk travel changes, brownfield retrofits, and compiler discipline.
+- Updated comparison and skill architecture docs to reflect the patterns adopted from Spec Kit, Superpowers, BMAD, and Kiro without copying their surface structure.
+
 ## 1.2.0 - 2026-06-16
 
 - Made retrofit a complete, end-to-end import instead of a one-capability sample. import-codebase now inventories the WHOLE codebase into intake/import-inventory.md first, then imports every capability until coverage is complete, with resume-across-sessions support for large repos.

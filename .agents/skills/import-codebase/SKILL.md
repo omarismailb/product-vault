@@ -1,6 +1,6 @@
 ---
 name: import-codebase
-description: Automatically use when retrofitting Product Wiki onto an existing codebase, or when asked to set up / create the first product wiki from an existing repo. Performs a complete, end-to-end reverse import of the whole codebase into the product wiki, one capability at a time, until coverage is complete. Treats output as proposals, not facts.
+description: Use when retrofitting Product Wiki onto an existing codebase or drafting the first product wiki from current code, docs, tests, and agent instructions.
 ---
 
 # Import Codebase
@@ -20,6 +20,17 @@ recover why it exists or which options were rejected. Mark inference honestly.
 - Do not claim inferred intent as fact (mark confidence: high / medium / low).
 - Do not stop after one capability. One capability is a unit of work, not the deliverable.
 - Do not write final `wiki/` files. Import produces proposals under `intake/proposals/`.
+
+## Template contract
+
+Before writing import artifacts, load:
+
+- `templates/import-inventory-template.md`
+- `templates/import-proposal-template.md`
+- `references/brownfield-import-rubric.md`
+
+If any path is missing, stop and report it.
+Do not infer import structure from schemas or lints.
 
 ## Phase 1 — Inventory the WHOLE codebase (mandatory, do this first)
 

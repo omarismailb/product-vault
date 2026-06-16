@@ -1,6 +1,6 @@
 ---
 name: reconcile-wiki
-description: Use after implementation or during maintenance to find drift between product wiki, tests, design system, architecture, dependencies, and code.
+description: Use when product wiki, checks, design system, architecture, dependencies, or code may be out of sync after implementation or routine checks.
 ---
 
 # Reconcile Wiki

@@ -9,7 +9,6 @@
     {
       "id": "check.product-wiki.proposal-lint",
       "covers": [
-        "proposal.example",
         "proposal.weekend-flight-change",
         "proposal.cit.search-plans"
       ],
@@ -19,7 +18,6 @@
     {
       "id": "check.product-wiki.proposal-traceability",
       "covers": [
-        "proposal.example",
         "proposal.weekend-flight-change",
         "proposal.cit.search-plans"
       ],

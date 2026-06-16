@@ -1,12 +1,18 @@
 ---
 name: compile-change
-description: Automatically use after an approved product wiki change exists or when asked to implement an approved proposal. Turns the wiki change into design decisions, executable checks, implementation steps, code, verification, and reconciliation.
+description: Use when an approved product wiki change needs implementation, checks, verification evidence, or reconciliation with code.
 ---
 
 # Compile Change
 
 Your job is to compile an approved product wiki change into code and executable checks.
 Use the lightest safe path.
+
+## Template contract
+
+For medium or high-risk changes, load `templates/compiler-plan-template.md` before implementation.
+If the template is missing, stop and report the missing path.
+Do not invent a plan shape from memory.
 
 ## Choose path by blast radius
 
@@ -28,7 +34,7 @@ Use the full path when the change affects behaviour, user journeys, data, securi
 3. Decide reuse or refactor:
    - reuse existing capability where possible
    - raise a refactor proposal before adding fragile branches
-4. Define executable checks:
+4. Define executable checks before application code:
    - acceptance criteria to tests
    - rules to regression checks
    - journeys to integration or E2E checks where appropriate
@@ -39,12 +45,18 @@ Use the full path when the change affects behaviour, user journeys, data, securi
    - data paths
    - risk points
    - use `templates/compiler-plan-template.md` when the change is medium or high risk
-6. Implement the smallest coherent code change.
-7. Run checks, including `node scripts/checks-lint.mjs --run` and the product repo's normal test command.
-8. Reconcile the wiki:
+6. For behaviour changes, use a red-green loop:
+   - add the smallest failing check for the next acceptance criterion
+   - run it and confirm it fails for the expected reason
+   - implement the smallest code change
+   - run it again and confirm it passes
+7. Implement the smallest coherent code change.
+8. Run checks, including `node scripts/checks-lint.mjs --run` and the product repo's normal test command.
+9. Reconcile the wiki:
    - update traceability
    - update dependency links
    - record decisions or assumptions discovered during implementation
+10. Run `node scripts/product-wiki-check.mjs`.
 
 ## Production questions
 

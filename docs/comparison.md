@@ -5,6 +5,7 @@ Product Wiki sits in the same broad family as Spec Kit, BMAD, Kiro, and Tessl.
 ## What it borrows
 
 - From Spec Kit: phased movement from request to spec to plan to tasks, plus explicit upgrade safety.
+- From Superpowers: one-question-at-a-time discovery, alternatives before implementation, self-review, pressure testing skills, TDD discipline, and verification before completion.
 - From BMAD: richer elicitation, brownfield awareness, project context, and adversarial review.
 - From Kiro: steering files, hooks, and the idea that agent behaviour should be shaped by durable project instructions.
 - From Tessl: skills need lifecycle, versioning, evaluation, and distribution discipline.
@@ -35,6 +36,9 @@ Future releases should be driven by real repo use: where import, proposal, compi
 
 - Skills first, because normal product requests should route naturally.
 - Three reviewer agents, because more agents would add ceremony before the repo has earned it.
+- Templates as contracts, because agents should not reverse-engineer artifact shapes from schemas.
+- One-question-at-a-time clarification for meaningful uncertainty, because stacked questions hide product decisions.
+- Check-first compilation for behaviour changes, because practical determinism only matters when checks run against code.
 - Explicit upgrades, because silently changing hooks and agent rules in installed repos is unsafe.
 - Source-only plugin metadata, because the Codex plugin is for distributing Product Wiki itself, not for every app repo that installs the harness.
 - Starter check manifests for installed repos, because application repos should not inherit source-repo examples they do not contain.

@@ -5,18 +5,6 @@
       "covers": ["wiki.index", "wiki.log"],
       "kind": "lint",
       "command": "node scripts/wiki-lint.mjs"
-    },
-    {
-      "id": "check.product-wiki.proposal-lint",
-      "covers": ["proposal.example"],
-      "kind": "lint",
-      "command": "node scripts/proposal-lint.mjs"
-    },
-    {
-      "id": "check.product-wiki.proposal-traceability",
-      "covers": ["proposal.example"],
-      "kind": "lint",
-      "command": "node scripts/proposal-traceability-lint.mjs"
     }
   ]
 }

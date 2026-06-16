@@ -52,6 +52,12 @@ Use repo skills from `.agents/skills`.
 - `review-architecture`: check reuse, boundaries, dependencies, and refactor pressure.
 - `generate-checks`: turn acceptance criteria into executable checks.
 
+## Templates are mandatory
+
+When a skill names a template under `templates/`, load that template before writing the artifact.
+If the template is missing, stop and report the missing path.
+Do not reconstruct proposal, wiki-unit, import, compiler-plan, or check-manifest shapes from schemas, lint output, examples, or memory.
+
 ## Retrofitting an existing repo
 
 A retrofit is a complete, end-to-end import, not a sample. Use `import-codebase` and:

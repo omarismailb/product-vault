@@ -1,29 +1,6 @@
----
-id: proposal.example
-type: proposal
-status: awaiting-approval
-approval_status: awaiting-approval
-request: Replace this with the user request.
-updated: 2026-06-16
----
+# Proposal Template
 
-# Proposal: replace with title
+Use `templates/proposal-template.md` as the canonical proposal template.
 
-## Proposed wiki changes
-
-- `actor.example`
-- `job.example`
-- `story.example`
-- `ac.example.behaviour`
-
-## Acceptance criteria
-
-- `ac.example.behaviour`: Given the relevant state, when the user takes the action, then the observable behaviour happens.
-
-## Checks to generate
-
-- `ac.example.behaviour`: Add or link the smallest executable check that proves the behaviour works.
-
-## Open questions
-
-- What still needs human judgement before this can be approved?
+Do not draft proposals from this pointer file.
+If `templates/proposal-template.md` is missing, stop and report the missing path.
