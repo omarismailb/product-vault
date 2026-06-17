@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.0 - 2026-06-17
+
+- Added a one-command installer CLI (bin/product-wiki.mjs). Install or upgrade with a single line and no global install: `npx github:omarismailb/product-wiki#v1.5.0 init` (or `sync`), pinned to a release tag for reproducibility. It wraps the existing ownership-aware sync-managed copy and then runs the harness checks. The temp-dir clone path still works as a fallback.
+
 ## 1.4.0 - 2026-06-17
 
 - Added greppable `PW:` wiki anchors and `scripts/wiki-anchor-lint.mjs` so important routes, services, workflows, domain modules, and tests can point back to stable product wiki IDs.

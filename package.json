@@ -1,6 +1,6 @@
 {
   "name": "product-wiki",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Product Wiki is an open-source harness for building software with coding agents.",
   "license": "MIT",
   "repository": {
@@ -20,6 +20,9 @@
     "agent-harness"
   ],
   "type": "module",
+  "bin": {
+    "product-wiki": "bin/product-wiki.mjs"
+  },
   "scripts": {
     "check": "node scripts/product-wiki-check.mjs",
     "doctor": "node scripts/doctor.mjs",

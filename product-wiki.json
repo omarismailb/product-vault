@@ -1,6 +1,6 @@
 {
   "name": "product-wiki",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "repository": "https://github.com/omarismailb/product-wiki",
   "license": "MIT",
   "minimum_node": "18",
@@ -54,7 +54,8 @@
       "examples",
       "tests/skill-pressure",
       ".github/ISSUE_TEMPLATE",
-      ".github/pull_request_template.md"
+      ".github/pull_request_template.md",
+      "bin"
     ],
     "user_owned": [
       "wiki/actors",
