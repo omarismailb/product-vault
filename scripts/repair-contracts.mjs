@@ -28,6 +28,8 @@ const contractFiles = [
   ".agents/skills/generate-checks/SKILL.md",
   ".agents/skills/reconcile-wiki/SKILL.md",
   ".agents/skills/review-architecture/SKILL.md",
+  "scripts/wiki-anchor-lint.mjs",
+  "scripts/ratchet-lint.mjs",
 ];
 
 if (help) {

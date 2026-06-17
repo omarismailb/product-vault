@@ -54,6 +54,7 @@ For non-trivial product requests, feature ideas, bug reports, workflow changes, 
 - Do not write application code until the proposal is approved.
 - After approval, apply the wiki change, then compile it into checks, implementation, and verification.
 - Use repo skills from \`.agents/skills\`: \`propose-change\`, \`apply-wiki-change\`, \`compile-change\`, \`generate-checks\`, \`reconcile-wiki\`, \`import-codebase\`, and \`review-architecture\`.
+- When searching code, check \`PW:\` wiki anchors first, then use normal search.
 - Before finishing, run \`node scripts/product-wiki-check.mjs\` and the repo's normal test command.
 
 The user should not need to name Product Wiki or a skill for ordinary product work.
@@ -64,6 +65,7 @@ The user should not need to name Product Wiki or a skill for ordinary product wo
 Follow the Product Wiki routing block in \`AGENTS.md\`.
 For non-trivial product requests, use the mirrored skills in \`.claude/skills\` and do not write application code until the product wiki proposal is approved.
 Use reviewer subagents from \`.claude/agents\` only when separate context helps.
+When searching code, check \`PW:\` wiki anchors first, then use normal search.
 <!-- product-wiki-routing:end -->`,
 };
 
@@ -200,6 +202,9 @@ function mergePackageScripts() {
     "pw:checks-run": "node scripts/checks-lint.mjs --run",
     "pw:lifecycle": "node scripts/lifecycle-lint.mjs",
     "pw:intent": "node scripts/intent-lint.mjs",
+    "pw:wiki-anchors": "node scripts/wiki-anchor-lint.mjs",
+    "pw:source-map": "node scripts/wiki-anchor-lint.mjs --write-report",
+    "pw:ratchet": "node scripts/ratchet-lint.mjs",
     "pw:wiki-links": "node scripts/wiki-link-lint.mjs",
     "pw:import-coverage": "node scripts/import-coverage.mjs",
     "pw:routines": "node scripts/routine-runner.mjs --all",

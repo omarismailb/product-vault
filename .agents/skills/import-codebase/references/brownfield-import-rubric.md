@@ -20,6 +20,8 @@ mapped into the wiki, one capability at a time, until nothing significant is unm
 5. Record cross-cutting concerns: auth, permissions, secrets, money, tenancy, observability.
 6. Write `intake/import-inventory.md`: every candidate capability, its code paths, confidence,
    and a `[ ]`/`[x]` status. This is the coverage backbone and the resume point.
+7. Group capabilities into small batches, usually 3-5 items. Use smaller batches for risky,
+   cross-cutting, or unclear capabilities.
 
 ## Phase 2 — import every capability
 
@@ -27,6 +29,7 @@ mapped into the wiki, one capability at a time, until nothing significant is unm
 - Import ALL of them. If the repo has thirty capabilities, you produce thirty proposals
   (in batches if needed), not one. Tick each off in the inventory as you go.
 - Re-read the inventory at the start of each session; continue from the first pending entry.
+- End every session with the current batch, coverage count, and the exact next resume point.
 
 ## Evidence quality
 
@@ -59,6 +62,7 @@ The import is done only when:
 ## Output discipline
 
 - Small per-capability proposals, but COMPLETE coverage. Never silently stop after a fraction.
+- For large repos, use the inventory as a progress ledger. Do not rely on chat memory.
 - Do not write final wiki files during import.
 - Do not edit app code.
 - Do not mark inferred product intent as fact.

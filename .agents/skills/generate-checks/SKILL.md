@@ -31,9 +31,10 @@ Your job is to turn product wiki claims into checks that run against code.
 5. For behaviour changes, write the smallest check first and run it before implementation.
    Confirm it fails for the expected reason when the behaviour is not yet implemented.
 6. Link the check back to the wiki unit by stable ID.
+   Add a `PW:` anchor in the test when it helps the agent jump from the wiki claim to the check.
 7. Update `checks/manifest.json` when the check should remain part of the product contract.
 8. Run the check.
-9. Run `node scripts/checks-lint.mjs --run`.
+9. Run `node scripts/checks-lint.mjs --run` and `node scripts/wiki-anchor-lint.mjs`.
 
 ## Output
 
@@ -41,6 +42,7 @@ Return:
 
 - Wiki IDs covered.
 - Checks added.
+- `PW:` anchors added where useful.
 - Command run.
 - Result.
 - Whether the check was observed failing before implementation, when applicable.

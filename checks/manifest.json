@@ -7,6 +7,18 @@
       "command": "node scripts/wiki-lint.mjs"
     },
     {
+      "id": "check.product-wiki.wiki-anchors",
+      "covers": ["wiki.index", "wiki.log"],
+      "kind": "lint",
+      "command": "node scripts/wiki-anchor-lint.mjs"
+    },
+    {
+      "id": "check.product-wiki.ratchet",
+      "covers": ["wiki.index", "wiki.log"],
+      "kind": "lint",
+      "command": "node scripts/ratchet-lint.mjs"
+    },
+    {
       "id": "check.product-wiki.proposal-lint",
       "covers": [
         "proposal.weekend-flight-change",

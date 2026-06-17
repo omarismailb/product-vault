@@ -5,6 +5,18 @@
       "covers": ["wiki.index", "wiki.log"],
       "kind": "lint",
       "command": "node scripts/wiki-lint.mjs"
+    },
+    {
+      "id": "check.product-wiki.wiki-anchors",
+      "covers": ["wiki.index"],
+      "kind": "lint",
+      "command": "node scripts/wiki-anchor-lint.mjs"
+    },
+    {
+      "id": "check.product-wiki.ratchet",
+      "covers": ["wiki.index"],
+      "kind": "lint",
+      "command": "node scripts/ratchet-lint.mjs"
     }
   ]
 }

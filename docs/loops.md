@@ -2,7 +2,7 @@
 
 Product Wiki has loops, but they are not a magic background daemon.
 
-They are a small set of repeatable routines that keep the product wiki, checks, architecture, design-system notes, and code from drifting apart.
+They are a small set of repeatable routines that keep the product wiki, checks, architecture, design-system notes, wiki anchors, and code from drifting apart.
 
 ## The loop stack
 
@@ -11,7 +11,9 @@ They are a small set of repeatable routines that keep the product wiki, checks, 
 | Native hooks | Run lightweight turn-end loop checks inside Codex and Claude Code | `.codex/config.toml`, `.claude/settings.json`, `scripts/hook-loop.mjs` |
 | Deterministic checks | Fast checks that can pass or fail without judgement | `scripts/`, `checks/manifest.json` |
 | Routine runner | Runs named maintenance routines and writes local reports | `routines/manifest.json`, `scripts/routine-runner.mjs` |
-| Agent reconciliation | Reads routine output, changed files, and wiki units, then fixes safe links or raises proposals | `.agents/skills/reconcile-wiki/` |
+| Source map | Maps `PW:` anchors in code back to wiki IDs | `scripts/wiki-anchor-lint.mjs`, `.product-wiki/source-map.json` |
+| Ratchet | Checks that current approval, check, and anchor coverage have not slipped backwards | `scripts/ratchet-lint.mjs` |
+| Agent reconciliation | Reads routine output, changed files, wiki units, and anchor reports, then fixes safe links or raises proposals | `.agents/skills/reconcile-wiki/` |
 | Optional automation | Runs routine checks on a schedule or in CI | `.github/workflows/product-wiki-routines.yml` |
 
 Routine reports are written under `.product-wiki/routine-runs/`.
@@ -57,6 +59,18 @@ To run the same lightweight loop the hooks call:
 node scripts/hook-loop.mjs --event manual
 ```
 
+To refresh the source map from wiki IDs to code anchors:
+
+```bash
+node scripts/wiki-anchor-lint.mjs --write-report
+```
+
+To run the ratchet check:
+
+```bash
+node scripts/ratchet-lint.mjs
+```
+
 ## What is automatic
 
 The deterministic part is automatic:
@@ -64,10 +78,14 @@ The deterministic part is automatic:
 - turn-end hook checks in Codex and Claude Code
 - wiki structure linting
 - broken wiki-link detection
+- invalid `PW:` anchor detection
+- missing important `PW:` anchors surfaced for agent review
+- local source-map generation
 - proposal linting
 - acceptance-criteria-to-check coverage once a proposal is implemented
 - approval-gate enforcement (active criteria trace to an approved proposal)
 - check manifest execution
+- ratchet checks for current coverage gaps
 - routine manifest validation
 
 Two routines are now deterministic that previously only prompted an agent: `wiki-health` runs the link check, and `architecture-drift` runs `intent-lint`. `design-drift` remains an agent-review routine because comparing UI against design intent needs judgement, not a script.
@@ -85,6 +103,7 @@ Examples:
 - a design-system rule is contradicted by a new UI
 - an assumption has become stale
 - a missing check requires product judgement
+- an important code path needs a product decision before it can be anchored honestly
 
 For those, run the `reconcile-wiki` skill.
 It should auto-fix objective links when safe and raise proposals for anything that changes product intent.
@@ -98,7 +117,7 @@ That split is deliberate best practice:
 
 ## Recommended cadence
 
-- After implementation: `routine.traceability-drift` and `routine.verification`.
+- After implementation: `routine.traceability-drift`, `routine.verification`, `routine.source-map`, and `routine.ratchet`.
 - Weekly or before a large feature: `routine.wiki-health`.
 - After several features: `routine.architecture-drift`.
 - After UI-heavy changes: `routine.design-drift`.

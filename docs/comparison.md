@@ -39,6 +39,8 @@ Future releases should be driven by real repo use: where import, proposal, compi
 - Templates as contracts with repair-first recovery, because agents should not reverse-engineer artifact shapes from schemas but the harness should not collapse over a missing managed file.
 - One-question-at-a-time clarification for meaningful uncertainty, because stacked questions hide product decisions.
 - Check-first compilation for behaviour changes, because practical determinism only matters when checks run against code.
+- Greppable `PW:` anchors and a local source map, so agents can move from product intent to implementation without relying only on broad semantic search.
+- A ratchet check, so approval coverage, executable check coverage, and wiki anchors do not quietly move backwards as the repo grows.
 - Explicit upgrades, because silently changing hooks and agent rules in installed repos is unsafe.
 - Source-only plugin metadata, because the Codex plugin is for distributing Product Wiki itself, not for every app repo that installs the harness.
 - Starter check manifests for installed repos, because application repos should not inherit source-repo examples they do not contain.

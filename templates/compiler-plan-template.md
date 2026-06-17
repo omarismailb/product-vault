@@ -49,6 +49,16 @@ Expected first failure, when the behaviour is not implemented yet:
 
 - `ac.example.behaviour`:
 
+## Wiki anchors
+
+Use `PW:` anchors only at important implementation boundaries: routes, services, workflows, domain modules, and tests.
+Do not annotate every line.
+
+| Wiki ID | Code or test path | Anchor |
+|---|---|---|
+| `capability.example` | `src/...` | `PW:capability.example` |
+| `rule.example` | `src/...` | `PW:rule.example` |
+
 ## Architecture and implementation decision
 
 - Module that owns the behaviour:
@@ -67,8 +77,9 @@ Expected first failure, when the behaviour is not implemented yet:
 3. Make the smallest coherent code change.
 4. Run the targeted check and confirm it passes.
 5. Repeat for the remaining acceptance criteria.
-6. Run product checks and normal repo checks.
-7. Reconcile wiki links, check manifest, and decision notes.
+6. Add or update `PW:` anchors at the implementation boundaries.
+7. Run product checks and normal repo checks.
+8. Reconcile wiki links, check manifest, anchor report, and decision notes.
 
 ## Verification evidence
 
@@ -81,5 +92,6 @@ Expected first failure, when the behaviour is not implemented yet:
 - [ ] Every acceptance criterion in this implemented change has a manifest entry.
 - [ ] Every manifest command runs successfully or has explicit manual evidence.
 - [ ] The implementation uses or extends the named capability.
+- [ ] Important routes, services, workflows, or tests have `PW:` anchors where useful.
 - [ ] New decisions, assumptions, or risks discovered during implementation are recorded.
 - [ ] `node scripts/product-wiki-check.mjs` passes.

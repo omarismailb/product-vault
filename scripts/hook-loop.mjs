@@ -63,6 +63,8 @@ function routinesFor(files) {
 
   if (wikiChanged || routineChanged) routines.push("routine.wiki-health");
   if (wikiChanged || proposalChanged || checksChanged || appOrProductChanged) routines.push("routine.traceability-drift");
+  if (appOrProductChanged) routines.push("routine.source-map");
+  if (wikiChanged || proposalChanged || checksChanged || appOrProductChanged) routines.push("routine.ratchet");
   if (checksChanged) routines.push("routine.verification");
 
   return unique(routines);

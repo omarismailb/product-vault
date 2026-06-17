@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.0 - 2026-06-17
+
+- Added greppable `PW:` wiki anchors and `scripts/wiki-anchor-lint.mjs` so important routes, services, workflows, domain modules, and tests can point back to stable product wiki IDs.
+- Added `scripts/ratchet-lint.mjs` so approval coverage, active acceptance-criteria coverage, and wiki-anchor coverage cannot quietly slip backwards.
+- Added source-map generation under `.product-wiki/source-map.json` for local agent navigation from wiki IDs to code paths.
+- Updated compile, checks, reconcile, import, installer, routine, and agent instructions so Codex and Claude Code use wiki anchors, source maps, resumable retrofit batches, and ratchet checks naturally.
+- Expanded the starter check manifest and routine docs so installed repos inherit the new traceability loop.
+
 ## 1.3.2 - 2026-06-16
 
 - Fixed the compile lifecycle guard so approved proposals can remain pending compile without failing Stop hooks.

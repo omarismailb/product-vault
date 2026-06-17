@@ -54,12 +54,25 @@ with the code paths it covers, a confidence level, and a status box `[ ]` (pendi
 `[x]` (imported). This file is the backbone of the retrofit: it makes coverage explicit
 and lets the import resume across sessions.
 
+Group the inventory into reviewable batches of 3-5 capabilities, smaller when a capability
+is risky, cross-cutting, or unclear. Record the batch number and next resume point in
+`intake/import-inventory.md`.
+
 Run `node scripts/import-coverage.mjs` and show the user the inventory and the count of
 capabilities to import. This is the only point where you pause before importing.
 
 ## Phase 2 — Import every capability (chunked, complete, resumable)
 
-Work through the inventory until nothing significant is unmapped. For each capability:
+Work through the inventory until nothing significant is unmapped. For each batch:
+
+1. Re-read `intake/import-inventory.md`.
+2. Select the next unchecked capabilities in the current batch.
+3. Import one capability per proposal so each remains reviewable.
+4. After the batch, run `node scripts/import-coverage.mjs`.
+5. Update the imported count, pending count, current batch, and next resume point.
+6. Report the next exact command or prompt that continues from the first unchecked item.
+
+For each capability:
 
 1. Read the code paths for that capability closely enough to support claims.
 2. Draft a proposal under `intake/proposals/` using `templates/import-proposal-template.md`
@@ -73,6 +86,9 @@ Token and context discipline: import one capability per proposal so each stays r
 and so a large repo can be imported across several sessions. Re-read
 `intake/import-inventory.md` at the start of each session and continue from the first
 pending entry. Do not re-import completed capabilities.
+
+If context gets low, stop after updating the inventory and write the exact resume point.
+Do not leave the user guessing what remains.
 
 ## Completeness — the retrofit is done only when this holds
 
@@ -90,6 +106,7 @@ exactly how much is mapped and what remains.
 - Inventory path and total capabilities discovered.
 - Capabilities imported this session and proposal paths.
 - Coverage so far (imported / total) from `import-coverage.mjs`.
+- Current batch and next resume point.
 - Remaining pending capabilities and any unmapped code areas.
 - Gaps where code cannot reveal intent (the why), flagged for the owner.
 

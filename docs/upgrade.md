@@ -16,6 +16,8 @@ Upgrade Product Wiki in this repo to the latest version from https://github.com/
 Inspect the installed version and local changes first.
 Update managed harness files only.
 Preserve the product wiki, proposals, check manifest, app code, app tests, and project-specific agent rules.
+Preserve `.product-wiki/ratchet-baseline.json` if the repo uses a ratchet baseline.
+Regenerate `.product-wiki/source-map.json` after upgrading with `node scripts/wiki-anchor-lint.mjs --write-report`.
 Refresh the managed Product Wiki routing block in AGENTS.md and CLAUDE.md without deleting local rules.
 For other merge-required files, stage the upstream version in .product-wiki/incoming/ and show me the diff.
 Run Product Wiki checks and the repo's normal checks.

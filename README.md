@@ -8,8 +8,10 @@ The problem is that they mostly reason from the current codebase and the current
 Code records how a product was built.
 It does not reliably record why it was built, what it is meant to do, or which trade-offs were rejected.
 
-The missing layer is a product wiki: a natural-language layer above the codebase.
-It stays current with what the product is supposed to do, not just how the code happens to work today.
+The missing layer is a product wiki: a natural-language abstraction layer above the codebase.
+A request, such as a new feature, bug report, or workflow change, becomes a small change to the wiki.
+The wiki says what the product should do, who it affects, what must stay true, and how to know it works.
+The compiler turns that wiki change into design decisions, checks, and the smallest safe code change.
 
 ## What this does
 
@@ -21,8 +23,10 @@ Instead of going straight to code, the harness runs a chain of skills:
 1. `propose-change` clarifies the request, asks material questions one at a time, and drafts a proposed wiki change from the canonical template.
 2. `apply-wiki-change` updates the product wiki after human approval.
 3. `compile-change` turns that approved wiki change into design decisions, executable checks, an implementation plan, code, and verification evidence.
-4. `routine-runner` runs the deterministic loops that can pass or fail.
-5. `reconcile-wiki` handles the judgement loop: fixing safe links and raising proposals when the wiki, checks, architecture, design system, and code drift.
+4. `wiki-anchor-lint` validates `PW:` anchors that link important code paths back to wiki IDs.
+5. `routine-runner` runs deterministic loops that can pass or fail.
+6. `ratchet-lint` checks that approval coverage, check coverage, and wiki anchors have not slipped backwards.
+7. `reconcile-wiki` handles the judgement loop: fixing safe links and raising proposals when the wiki, checks, architecture, design system, and code drift.
 
 The core units are actors, jobs, stories, acceptance criteria, rules, journeys, capabilities, and decisions.
 As the product grows, the wiki also tracks outcomes, non-goals, assumptions, risks, and glossary terms.
@@ -35,6 +39,20 @@ It pins down the behaviour a change must produce, so there is less room for the 
 
 The important part is that the checks run against the code.
 Otherwise the wiki becomes another stale document with more confidence around it.
+
+## Wiki anchors
+
+The code can carry small wiki anchors so agents can jump from product intent to implementation:
+
+```ts
+// PW:capability.self-serve-flight-change
+// PW:rule.fare-difference-confirmation
+```
+
+When an agent searches the codebase, it should check `PW:` anchors first, then fall back to normal code search.
+Anchors should appear at useful boundaries such as routes, services, workflows, domain modules, and tests.
+They are signposts for agents, not comments on every line.
+`node scripts/wiki-anchor-lint.mjs --write-report` turns those signposts into a local source map for the next agent pass.
 
 ## Install in a new repo
 
@@ -107,6 +125,7 @@ For a mature codebase, start with the reverse import:
 Read this repo and draft a first product wiki from what the code, docs, tests, and existing agent instructions reveal.
 Treat the output as proposals, not facts.
 Chunk the import by capability so I can review it.
+Create an import inventory with batches and a resume point before importing capabilities.
 Do not edit application code.
 ```
 
@@ -162,6 +181,18 @@ Run all deterministic routines:
 
 ```bash
 node scripts/routine-runner.mjs --all
+```
+
+Write or refresh the local wiki-to-code source map:
+
+```bash
+node scripts/wiki-anchor-lint.mjs --write-report
+```
+
+Run the ratchet check:
+
+```bash
+node scripts/ratchet-lint.mjs
 ```
 
 List routines:
@@ -220,6 +251,7 @@ product-wiki/
   schemas/                      file contracts
   scripts/                      lint, eval, doctor, and sync helpers
   wiki/                         product wiki
+  .product-wiki/                local reports, source maps, and incoming updates
   evals/golden/                 regression cases
   examples/                     greenfield and retrofit examples
 ```

@@ -73,6 +73,7 @@ console.log(`import-coverage: ${imported.length}/${total} capabilities imported 
 if (pending.length) {
   console.log(`pending (${pending.length}):`);
   for (const p of pending) console.log(`  - ${p}`);
+  console.log(`next resume point: ${pending[0]}`);
 }
 if (unmapped.length) {
   console.log(`possibly unmapped source modules (heuristic, ${unmapped.length}):`);

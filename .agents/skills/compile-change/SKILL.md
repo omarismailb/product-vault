@@ -29,6 +29,7 @@ Use the full path when the change affects behaviour, user journeys, data, securi
 1. Apply or confirm the approved wiki change.
 2. Locate the blast radius:
    - wiki units
+   - existing `PW:` wiki anchors from code search
    - code paths
    - tests
    - dependencies
@@ -46,6 +47,7 @@ Use the full path when the change affects behaviour, user journeys, data, securi
    - interfaces
    - data paths
    - risk points
+   - `PW:` anchors to add or update at important implementation boundaries
    - use `templates/compiler-plan-template.md` when the change is medium or high risk
 6. For behaviour changes, use a red-green loop:
    - add the smallest failing check for the next acceptance criterion
@@ -53,13 +55,16 @@ Use the full path when the change affects behaviour, user journeys, data, securi
    - implement the smallest code change
    - run it again and confirm it passes
 7. Implement the smallest coherent code change.
-8. Run checks, including `node scripts/checks-lint.mjs --run` and the product repo's normal test command.
-9. Reconcile the wiki:
+8. Add or update `PW:` anchors at important routes, services, workflows, domain modules, and tests.
+   Use anchors as signposts, not comments on every line.
+9. Run checks, including `node scripts/checks-lint.mjs --run`, `node scripts/wiki-anchor-lint.mjs --write-report`, `node scripts/ratchet-lint.mjs`, and the product repo's normal test command.
+10. Reconcile the wiki:
    - update traceability
    - update dependency links
+   - update or review the local source map in `.product-wiki/source-map.json`
    - record decisions or assumptions discovered during implementation
-10. Mark the proposal `implemented` only after the manifest coverage and code checks pass.
-11. Run `node scripts/product-wiki-check.mjs`.
+11. Mark the proposal `implemented` only after the manifest coverage and code checks pass.
+12. Run `node scripts/product-wiki-check.mjs`.
 
 ## Production questions
 
@@ -78,6 +83,7 @@ Return:
 - Proposal compiled.
 - Checks added or run.
 - Code paths changed.
+- `PW:` anchors added or updated.
 - Verification evidence.
 - Wiki reconciliation notes.
 

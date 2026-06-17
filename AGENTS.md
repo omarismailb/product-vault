@@ -71,10 +71,32 @@ Do not reconstruct proposal, wiki-unit, import, compiler-plan, or check-manifest
 A retrofit is a complete, end-to-end import, not a sample. Use `import-codebase` and:
 
 1. Inventory the WHOLE codebase first into `intake/import-inventory.md` (every surface, module, route, job, data store, and cross-cutting concern).
-2. Import every capability, one reviewable proposal at a time, ticking the inventory as you go. Resume from the inventory across sessions for large repos.
-3. The retrofit is done only when `node scripts/import-coverage.mjs` reports 0 pending and no unmapped top-level source directory.
+2. Split the inventory into small batches and record the next resume point.
+3. Import every capability, one reviewable proposal at a time, ticking the inventory as you go. Resume from the inventory across sessions for large repos.
+4. The retrofit is done only when `node scripts/import-coverage.mjs` reports 0 pending and no unmapped top-level source directory.
 
 Do not stop after one capability. Do not edit application code during import.
+
+## Wiki anchors
+
+When searching code, first grep for `PW:` anchors, then fall back to normal code search.
+Use anchors only at useful boundaries: routes, services, workflows, domain modules, and tests.
+Do not annotate every line.
+
+Example:
+
+```ts
+// PW:capability.self-serve-flight-change
+// PW:rule.fare-difference-confirmation
+```
+
+Run:
+
+```bash
+node scripts/wiki-anchor-lint.mjs --write-report
+```
+
+This validates anchors and writes a local source map to `.product-wiki/source-map.json`.
 
 ## Loops
 
@@ -96,6 +118,7 @@ node scripts/hook-loop.mjs --event manual
 Loop reports are written to `.product-wiki/routine-runs/` and `.product-wiki/hook-loops/`.
 They should not be committed.
 When a routine finds drift that needs judgement, use `reconcile-wiki` to fix safe links or raise a proposal.
+Use `node scripts/ratchet-lint.mjs` after implementation to make sure current checks, approval coverage, and wiki anchors have not slipped backwards.
 
 ## Subagents
 

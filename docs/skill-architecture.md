@@ -49,6 +49,7 @@ Product Wiki uses the useful parts without copying their surface shape:
 - Kiro: durable steering/spec files plus hooks for recurring work.
 
 The Product Wiki-specific addition is the persistent product wiki: stable natural-language units linked to checks and code over time.
+`PW:` anchors make that link grep-friendly for agents without forcing humans to read implementation detail.
 
 ## Contract rule
 
@@ -84,3 +85,4 @@ This keeps the harness resilient without letting the agent invent the source-of-
 
 The native hooks do not make product decisions.
 They run deterministic checks and tell the main agent when a reconciliation skill should be used.
+They also validate wiki anchors and run the ratchet check when product files change.

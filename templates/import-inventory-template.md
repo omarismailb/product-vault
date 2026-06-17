@@ -6,6 +6,15 @@ every box is ticked and `node scripts/import-coverage.mjs` reports 0 pending.
 
 Status: pending = `[ ]`, imported = `[x]`.
 
+## Import progress
+
+- Total capabilities discovered: 0
+- Imported: 0
+- Pending: 0
+- Current batch: 1
+- Batch size: 3-5 capabilities, smaller when a capability is risky or unclear.
+- Next resume point: first unchecked item under "Capabilities to import".
+
 ## Product surfaces discovered
 
 - routes / endpoints: <list>
@@ -14,9 +23,18 @@ Status: pending = `[ ]`, imported = `[x]`.
 
 ## Capabilities to import
 
-- [ ] capability.<id> — code paths: `src/...`, `src/...` — confidence: high|medium|low
-- [ ] capability.<id> — code paths: `...` — confidence: ...
+- [ ] capability.<id> — batch: 1 — code paths: `src/...`, `src/...` — confidence: high|medium|low
+- [ ] capability.<id> — batch: 1 — code paths: `...` — confidence: ...
 <!-- add one line per capability discovered across the WHOLE codebase -->
+
+## Batch plan
+
+Each batch should be small enough for a human to review.
+For every batch, import the next unchecked capabilities, run coverage, and write the next resume point.
+
+| Batch | Capabilities | Goal | Status |
+|---|---|---|---|
+| 1 | `capability.example` | First reviewable slice | pending |
 
 ## Cross-cutting concerns (capture as rules or decisions)
 

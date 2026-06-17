@@ -11,7 +11,8 @@ Your job is to keep the product wiki and codebase aligned.
 
 - Wiki claims with no executable check.
 - Checks with no linked wiki unit.
-- Code paths with no linked capability or story.
+- Code paths with no linked capability, story, rule, or `PW:` anchor.
+- `PW:` anchors that point to missing or renamed wiki IDs.
 - Decisions contradicted by current implementation.
 - Design system rules not reflected in UI code.
 - Dependencies not declared in the wiki.
@@ -20,27 +21,32 @@ Your job is to keep the product wiki and codebase aligned.
 ## Workflow
 
 1. Run `node scripts/wiki-lint.mjs`.
-2. Run the relevant routine:
+2. Run `node scripts/wiki-anchor-lint.mjs --write-report`.
+3. Run the relevant routine:
    - `node scripts/routine-runner.mjs --routine routine.traceability-drift`
    - `node scripts/routine-runner.mjs --routine routine.wiki-health`
+   - `node scripts/routine-runner.mjs --routine routine.source-map`
+   - `node scripts/routine-runner.mjs --routine routine.ratchet`
    - `node scripts/routine-runner.mjs --all` for a broad maintenance pass.
-3. Read the latest local report under `.product-wiki/routine-runs/` if one was created.
-4. Read `references/drift-rubric.md`.
-5. Inspect changed files or the requested scope.
-6. Build a traceability summary:
+4. Read the latest local report under `.product-wiki/routine-runs/` and `.product-wiki/source-map.json` if either exists.
+5. Read `references/drift-rubric.md`.
+6. Inspect changed files or the requested scope.
+7. Build a traceability summary:
    - wiki unit
    - code paths
+   - `PW:` anchors
    - checks
    - status
-7. Auto-fix objective missing links when safe.
-8. Raise proposals for judgement calls.
-9. Report anything that needs user review.
+8. Auto-fix objective missing links or stale anchors when safe.
+9. Raise proposals for judgement calls.
+10. Report anything that needs user review.
 
 ## Output
 
 Return:
 
 - Fixed links.
+- Fixed or missing `PW:` anchors.
 - Proposed wiki updates.
 - Missing checks.
 - Stale or contradictory claims.

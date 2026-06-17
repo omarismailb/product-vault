@@ -92,12 +92,27 @@ if (compilerPlan) {
     "## Blast radius",
     "## Reuse or refactor",
     "## Checks first",
+    "## Wiki anchors",
     "## Architecture and implementation decision",
     "## Implementation steps",
     "## Verification evidence",
     "## Completion checklist",
   ]) {
     if (!compilerPlan.includes(heading)) errors.push(`compiler-plan-template.md missing heading: ${heading}`);
+  }
+}
+
+const importInventory = read("templates/import-inventory-template.md");
+if (importInventory) {
+  for (const heading of [
+    "## Import progress",
+    "## Product surfaces discovered",
+    "## Capabilities to import",
+    "## Batch plan",
+    "## Cross-cutting concerns",
+    "## Deliberately out of scope",
+  ]) {
+    if (!importInventory.includes(heading)) errors.push(`import-inventory-template.md missing heading: ${heading}`);
   }
 }
 

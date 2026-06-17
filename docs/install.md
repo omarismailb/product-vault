@@ -49,6 +49,7 @@ For other files that already exist and need merging, put the Product Wiki versio
 Do not overwrite the product wiki, proposals, app code, or app tests.
 Run the harness checks and the repo's normal checks.
 Explain how to run Product Wiki routines with node scripts/routine-runner.mjs --all.
+Explain how to run Product Wiki anchor, source-map, and ratchet checks.
 Report files changed, files skipped, and anything requiring human judgement.
 ```
 
@@ -68,7 +69,7 @@ That keeps the managed files tied to a clear upstream version.
 The installer updates existing `AGENTS.md` and `CLAUDE.md` files with an idempotent managed block between `product-wiki-routing` markers.
 That makes normal product requests route through Product Wiki immediately while preserving the repo's existing instructions.
 
-If the target repo has a `package.json`, the installer also adds collision-free `pw:*` scripts (for example `npm run pw:check`, `npm run pw:doctor`, `npm run pw:checks-run`) without touching the repo's own scripts.
+If the target repo has a `package.json`, the installer also adds collision-free `pw:*` scripts (for example `npm run pw:check`, `npm run pw:doctor`, `npm run pw:checks-run`, `npm run pw:wiki-anchors`, `npm run pw:source-map`, and `npm run pw:ratchet`) without touching the repo's own scripts.
 You can always call the scripts directly with `node scripts/...`.
 
 ## Repair managed contracts
@@ -127,5 +128,6 @@ For an existing codebase, ask:
 Read this repo and draft the first product wiki from what the code, docs, tests, and agent instructions reveal.
 Treat the output as proposals, not facts.
 Chunk the import by capability so I can review it.
+Create an import inventory with batches and a resume point.
 Do not edit application code.
 ```

@@ -19,12 +19,37 @@
       "mode": "deterministic",
       "cadence": "after implementation and in scheduled maintenance",
       "playbook": "routines/traceability-drift.md",
-      "purpose": "Keep proposals, acceptance criteria, and check coverage linked.",
+      "purpose": "Keep proposals, acceptance criteria, check coverage, and code anchors linked.",
       "commands": [
         "node scripts/proposal-traceability-lint.mjs",
-        "node scripts/checks-lint.mjs"
+        "node scripts/checks-lint.mjs",
+        "node scripts/wiki-anchor-lint.mjs"
       ],
       "agent_follow_up": "Use reconcile-wiki when a missing link needs product judgement."
+    },
+    {
+      "id": "routine.source-map",
+      "name": "Source map",
+      "mode": "deterministic",
+      "cadence": "after implementation and after large refactors",
+      "playbook": "routines/traceability-drift.md",
+      "purpose": "Write a local map from wiki IDs to PW anchors in code so agents can jump from intent to implementation.",
+      "commands": [
+        "node scripts/wiki-anchor-lint.mjs --write-report"
+      ],
+      "agent_follow_up": "Use reconcile-wiki when important product units have no code or check path."
+    },
+    {
+      "id": "routine.ratchet",
+      "name": "Ratchet",
+      "mode": "deterministic",
+      "cadence": "after implementation and before marking a proposal implemented",
+      "playbook": "routines/traceability-drift.md",
+      "purpose": "Keep current checks, wiki anchors, and approval coverage from slipping backwards.",
+      "commands": [
+        "node scripts/ratchet-lint.mjs"
+      ],
+      "agent_follow_up": "Fix objective gaps; raise a proposal for product judgement."
     },
     {
       "id": "routine.verification",
