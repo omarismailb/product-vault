@@ -1,0 +1,14 @@
+{
+  "name": "product-wiki",
+  "owner": {
+    "name": "Omar Ismail",
+    "url": "https://github.com/omarismailb"
+  },
+  "plugins": [
+    {
+      "name": "product-wiki",
+      "source": "./",
+      "description": "Build software with coding agents through a reviewed product wiki, a compiler, and executable checks."
+    }
+  ]
+}

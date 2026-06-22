@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:product-wiki:schema:check",
+  "title": "Product Wiki executable check",
+  "type": "object",
+  "required": ["id", "covers", "kind", "command"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^check\\.[a-z0-9.-]+$"
+    },
+    "covers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9.-]+$"
+      },
+      "minItems": 1
+    },
+    "kind": {
+      "enum": ["unit", "integration", "e2e", "lint", "typecheck", "manual", "eval"]
+    },
+    "command": {
+      "type": "string",
+      "description": "A single allow-listed program invocation, run with shell:false. No shell features (&&, ;, |, redirects, globs, $(), backticks). The first token must be an allow-listed executable (node, npm, vitest, pytest, ...). For unit/integration/e2e checks using `node --test`, the command must reference a real test file and any --test-name-pattern must match the covered criterion id.",
+      "minLength": 1,
+      "pattern": "^[^&;|`$<>(){}]+$"
+    },
+    "evidence_path": {
+      "type": "string"
+    }
+  }
+}

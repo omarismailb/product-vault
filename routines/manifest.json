@@ -1,0 +1,103 @@
+{
+  "routines": [
+    {
+      "id": "routine.wiki-health",
+      "name": "Wiki health",
+      "mode": "deterministic",
+      "cadence": "weekly, before large features, and after imports",
+      "playbook": "routines/wiki-health.md",
+      "purpose": "Catch broken wiki structure, broken links, and stale product-wiki hygiene before the agent relies on it.",
+      "commands": [
+        "node scripts/wiki-lint.mjs",
+        "node scripts/wiki-overview-lint.mjs",
+        "node scripts/wiki-link-lint.mjs",
+        "node scripts/wiki-connectivity-lint.mjs"
+      ],
+      "agent_follow_up": "Use reconcile-wiki for stale drafts, missing links, or judgement calls."
+    },
+    {
+      "id": "routine.overview-freshness",
+      "name": "Overview freshness",
+      "mode": "deterministic",
+      "cadence": "after wiki changes, imports, and before large features",
+      "playbook": "routines/wiki-health.md",
+      "purpose": "Keep wiki/overview.md linked and reviewed after product units change.",
+      "commands": [
+        "node scripts/wiki-overview-lint.mjs"
+      ],
+      "agent_follow_up": "Update wiki/overview.md or confirm it has been reviewed and refresh its updated date."
+    },
+    {
+      "id": "routine.traceability-drift",
+      "name": "Traceability drift",
+      "mode": "deterministic",
+      "cadence": "after implementation and in scheduled maintenance",
+      "playbook": "routines/traceability-drift.md",
+      "purpose": "Keep proposals, acceptance criteria, check coverage, and code anchors linked.",
+      "commands": [
+        "node scripts/proposal-traceability-lint.mjs",
+        "node scripts/checks-lint.mjs",
+        "node scripts/wiki-anchor-lint.mjs"
+      ],
+      "agent_follow_up": "Use reconcile-wiki when a missing link needs product judgement."
+    },
+    {
+      "id": "routine.source-map",
+      "name": "Source map",
+      "mode": "deterministic",
+      "cadence": "after implementation and after large refactors",
+      "playbook": "routines/traceability-drift.md",
+      "purpose": "Write a local map from wiki IDs to PW anchors in code so agents can jump from intent to implementation.",
+      "commands": [
+        "node scripts/wiki-anchor-lint.mjs --write-report"
+      ],
+      "agent_follow_up": "Use reconcile-wiki when important product units have no code or check path."
+    },
+    {
+      "id": "routine.ratchet",
+      "name": "Ratchet",
+      "mode": "deterministic",
+      "cadence": "after implementation and before marking a proposal implemented",
+      "playbook": "routines/traceability-drift.md",
+      "purpose": "Keep current checks, wiki anchors, and approval coverage from slipping backwards.",
+      "commands": [
+        "node scripts/ratchet-lint.mjs"
+      ],
+      "agent_follow_up": "Fix objective gaps; raise a proposal for product judgement."
+    },
+    {
+      "id": "routine.verification",
+      "name": "Verification",
+      "mode": "deterministic",
+      "cadence": "before accepting implementation and in CI",
+      "playbook": "checks/README.md",
+      "purpose": "Run the executable checks that prove product-wiki claims.",
+      "commands": [
+        "node scripts/checks-lint.mjs --run"
+      ],
+      "agent_follow_up": "Use generate-checks if an implemented acceptance criterion lacks executable coverage."
+    },
+    {
+      "id": "routine.architecture-drift",
+      "name": "Architecture drift",
+      "mode": "deterministic",
+      "cadence": "after several features or when refactor pressure appears",
+      "playbook": "routines/architecture-drift.md",
+      "purpose": "Enforce intent traceability (active criteria trace to approval; executable checks trace to criteria), then prompt agent review for judgement calls like duplicate capabilities.",
+      "commands": [
+        "node scripts/intent-lint.mjs"
+      ],
+      "agent_follow_up": "Use review-architecture for duplicate capabilities or decisions contradicted by code, then raise a proposal if a refactor needs approval."
+    },
+    {
+      "id": "routine.design-drift",
+      "name": "Design drift",
+      "mode": "agent-review",
+      "cadence": "after UI-heavy changes",
+      "playbook": "routines/design-drift.md",
+      "purpose": "Compare UI implementation against the product wiki's design-system intent.",
+      "commands": [],
+      "agent_follow_up": "Use reconcile-wiki and generate-checks for design-system gaps."
+    }
+  ]
+}

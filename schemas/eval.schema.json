@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:product-wiki:schema:golden-eval",
+  "title": "Product Wiki golden eval",
+  "type": "object",
+  "required": ["id", "request", "proposal", "must_include_units", "must_include_acceptance_criteria", "must_include_checks"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^eval\\.[a-z0-9.-]+$"
+    },
+    "request": {
+      "type": "string"
+    },
+    "proposal": {
+      "type": "string"
+    },
+    "must_include_units": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9.-]*$"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "must_include_acceptance_criteria": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^ac\\.[a-z0-9.-]+$"
+      }
+    },
+    "must_include_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["covers", "kind"],
+        "properties": {
+          "covers": {
+            "type": "string",
+            "pattern": "^ac\\.[a-z0-9.-]+$"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "expectation": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

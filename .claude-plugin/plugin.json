@@ -1,0 +1,22 @@
+{
+  "name": "product-wiki",
+  "version": "2.3.0",
+  "description": "A harness for building software with coding agents: a natural-language product wiki, a reviewed change, a compiler, and executable checks.",
+  "author": {
+    "name": "Omar Ismail",
+    "url": "https://github.com/omarismailb"
+  },
+  "homepage": "https://github.com/omarismailb/product-wiki#readme",
+  "repository": "https://github.com/omarismailb/product-wiki",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "codex",
+    "agent-skills",
+    "product-management",
+    "spec-driven-development",
+    "software-architecture"
+  ],
+  "skills": "./.claude/skills",
+  "agents": "./.claude/agents"
+}

@@ -1,0 +1,26 @@
+name: wiki-checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  wiki-lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [18, 20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      # Call the script directly so the same workflow runs in the harness and in
+      # installed repos (which expose the gate as pw:check, not check). This runs
+      # the full gate, including the executable checks (checks-lint --run). The
+      # node matrix covers the engines floor (>=18) plus current LTS/latest.
+      - run: node scripts/product-wiki-check.mjs
+

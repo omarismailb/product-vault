@@ -1,0 +1,71 @@
+{
+  "id": "eval.weekend-flight-change",
+  "request": "Travellers call on weekends because agents are offline. Can they make simple flight changes themselves?",
+  "proposal": "examples/greenfield-weekend-flight-change/proposal.md",
+  "must_include_units": [
+    {
+      "id": "actor.frequent-flyer",
+      "type": "actor"
+    },
+    {
+      "id": "job.keep-trip-on-track-after-hours",
+      "type": "job"
+    },
+    {
+      "id": "story.self-serve-flight-reschedule",
+      "type": "story"
+    },
+    {
+      "id": "journey.manage-existing-trip",
+      "type": "journey"
+    },
+    {
+      "id": "capability.flight-search",
+      "type": "capability"
+    },
+    {
+      "id": "capability.fare-comparison",
+      "type": "capability"
+    },
+    {
+      "id": "capability.payment-authorisation",
+      "type": "capability"
+    },
+    {
+      "id": "rule.high-fare-difference-confirmation",
+      "type": "rule"
+    },
+    {
+      "id": "outcome.reduce-weekend-change-calls",
+      "type": "outcome"
+    },
+    {
+      "id": "non-goal.multi-city-reissues",
+      "type": "non-goal"
+    },
+    {
+      "id": "assumption.airline-penalties-available-fast-enough",
+      "type": "assumption"
+    },
+    {
+      "id": "decision.self-serve-low-value-changes",
+      "type": "decision"
+    }
+  ],
+  "must_include_acceptance_criteria": [
+    "ac.self-serve-flight-reschedule.options-within-60s",
+    "ac.self-serve-flight-reschedule.high-fare-confirmation"
+  ],
+  "must_include_checks": [
+    {
+      "covers": "ac.self-serve-flight-reschedule.options-within-60s",
+      "kind": "integration",
+      "expectation": "Options appear inside the time limit with search results stubbed."
+    },
+    {
+      "covers": "ac.self-serve-flight-reschedule.high-fare-confirmation",
+      "kind": "unit-or-integration",
+      "expectation": "Payment is blocked until the traveller confirms a fare difference over the threshold."
+    }
+  ]
+}

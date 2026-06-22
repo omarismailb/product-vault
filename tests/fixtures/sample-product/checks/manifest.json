@@ -1,0 +1,10 @@
+{
+  "checks": [
+    {
+      "id": "check.sample.option-scoring",
+      "covers": ["ac.option-scoring.options-within-60s"],
+      "kind": "unit",
+      "command": "node --test --test-name-pattern=ac.option-scoring.options-within-60s tests/scoring.test.mjs"
+    }
+  ]
+}

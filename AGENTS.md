@@ -1,0 +1,181 @@
+# AGENTS.md
+
+This repo is a product-wiki harness for coding agents.
+Use it to turn product intent into reviewed wiki changes before implementation.
+
+## Core rule
+
+Do not take a non-trivial product request straight to code.
+First create or update a proposal in `intake/proposals/`.
+Only compile to code after the proposal is approved by the user.
+
+The user should not need to ask for a skill by name.
+When a request looks like a feature idea, bug report, workflow change, product question, or retrofit task, route it into the right Product Wiki skill automatically.
+Explicit skill names are only a fallback when routing is unclear.
+
+Small mechanical edits can take a lighter path.
+If a change can be described in one sentence and has no product or architecture impact, make the edit and run the relevant checks.
+
+## Product wiki
+
+The product wiki lives in `wiki/`.
+Read `wiki/overview.md` first.
+It is the whole-product map: what this product is, who it serves, the main journeys, main capabilities, important rules, boundaries, and key decisions.
+Keep it short enough to scan before every meaningful change.
+Update or review it whenever a change affects the whole-product picture.
+
+Use `wiki/index.md` as the linked catalog.
+Link units in prose with standard relative markdown links, such as `[Stories](stories/)` or `[Remember material](../jobs/remember-material.md)`, so GitHub, Cursor previews, Obsidian, Codex, and Claude Code can all follow the graph. Do not use Obsidian-only `[[type.slug]]` links; they ship as dead text on GitHub.
+Use stable IDs in frontmatter, and list related unit ids in the frontmatter `links:` array (the machine-readable graph).
+
+Core units:
+
+- `overview`: whole-product map and entrypoint.
+- `index`: linked catalog for navigation.
+- `actor`: role involved in the system.
+- `job`: solution-free problem worth solving.
+- `story`: one chosen solution slice.
+- `acceptance-criterion`: observable done condition.
+- `rule`: product logic that applies across stories.
+- `journey`: flow or end-to-end path.
+- `capability`: reusable product or system function.
+- `decision`: ADR-style rationale.
+
+Growth units:
+
+- `outcome`: measurable success signal.
+- `non-goal`: explicitly out of scope.
+- `assumption`: risk or uncertain belief.
+- `glossary`: shared language.
+
+For how to size and split units, when to make a separate story, and when a choice is a decision rather than a rule, see `.agents/skills/propose-change/references/proposal-rubric.md` ("Sizing and splitting units"). Right-sized, not maximal: do not create a unit that carries nothing another unit does not.
+
+## Skills
+
+Use repo skills from `.agents/skills`.
+
+- `propose-change`: turn a request into a reviewable wiki proposal.
+- `apply-wiki-change`: apply an approved proposal to `wiki/`.
+- `compile-change`: turn an approved wiki change into code and executable checks.
+- `import-codebase`: completely reverse-import an existing repo into the wiki. Inventory the whole codebase first, then import every capability until coverage is complete. Not a single sample.
+- `reconcile-wiki`: find drift between wiki, tests, architecture, design, and code.
+- `review-architecture`: check reuse, boundaries, dependencies, and refactor pressure.
+- `generate-checks`: turn acceptance criteria into executable checks.
+
+## Contracts repair before stopping
+
+When a skill names a template under `templates/`, load that template before writing the artifact.
+If the template or skill contract is missing, first run:
+
+```bash
+node scripts/repair-contracts.mjs --write
+```
+
+Then re-run `node scripts/template-lint.mjs` and `node scripts/skill-lint.mjs`.
+Continue if repair succeeds.
+Stop only if the canonical contract cannot be restored.
+Do not reconstruct proposal, wiki-unit, import, compiler-plan, or check-manifest shapes from schemas, lint output, examples, or memory.
+
+## Retrofitting an existing repo
+
+A retrofit is a complete, end-to-end import, not a sample. Use `import-codebase` and:
+
+1. Inventory the WHOLE codebase first into `intake/import-inventory.md` (every surface, module, route, job, data store, and cross-cutting concern).
+2. Split the inventory into small batches and record the next resume point.
+3. Import every capability, one reviewable proposal at a time, ticking the inventory as you go. Resume from the inventory across sessions for large repos.
+4. The retrofit is done only when `node scripts/import-coverage.mjs` reports 0 pending and no unmapped top-level source directory.
+
+Do not stop after one capability. Do not edit application code during import.
+
+## How the wiki connects to code
+
+The wiki is natural language. It does not contain code, and it is not compiled to code mechanically.
+The wiki is the reviewed source of truth; the code the compiler writes from it traces back to it three ways:
+
+- `PW:<id>` comment anchors in the code name the wiki unit each part implements. Grep an id to find its code.
+- `.product-wiki/source-map.json` is the generated index from each anchored wiki id to its code location.
+- `checks/manifest.json` ties each acceptance criterion to a test command that runs against the code.
+
+So the bridge from intent to code is by reference and by executable check, not by the wiki holding the code. Capability, rule, and journey units carry the code anchors; the other unit types connect to code through them and through acceptance criteria.
+
+## Wiki anchors
+
+When searching code, first grep for `PW:` anchors, then fall back to normal code search.
+Use anchors only at useful boundaries: routes, services, workflows, domain modules, and tests.
+Do not annotate every line.
+
+Example:
+
+```ts
+// PW:capability.self-serve-flight-change
+// PW:rule.fare-difference-confirmation
+```
+
+Run:
+
+```bash
+node scripts/wiki-anchor-lint.mjs --write-report
+```
+
+This validates anchors and writes a local source map to `.product-wiki/source-map.json`.
+
+## Loops
+
+Recurring loops are defined in `routines/manifest.json`.
+Native turn-end loops are wired through `.codex/config.toml` and `.claude/settings.json`.
+
+Run deterministic loops with:
+
+```bash
+node scripts/routine-runner.mjs --all
+```
+
+Run the same lightweight loop the Stop hook calls with:
+
+```bash
+node scripts/hook-loop.mjs --event manual
+```
+
+Loop reports are written to `.product-wiki/routine-runs/` and `.product-wiki/hook-loops/`.
+They should not be committed.
+When a routine finds drift that needs judgement, use `reconcile-wiki` to fix safe links or raise a proposal.
+Use `node scripts/ratchet-lint.mjs` after implementation to make sure current checks, approval coverage, and wiki anchors have not slipped backwards.
+
+## Subagents
+
+Use subagents only when separate context helps.
+Do not spawn one reviewer per step by default.
+
+Good uses:
+
+- Architecture review for cross-module or high-risk changes.
+- Verification review after code and checks are produced.
+- Consistency review when the wiki and code may have drifted.
+
+## Checks
+
+Before finishing work, run:
+
+```bash
+node scripts/product-wiki-check.mjs
+```
+
+That includes `wiki-overview-lint`, which checks the overview exists, is linked from the index, links back to the index, and is reviewed when active wiki units change.
+
+Also run the product repo's normal tests when this harness is copied into an application repo.
+
+## Hard guardrails
+
+Markdown files guide the agent.
+Scripts, CI, checks, and the host agent's own permission settings enforce the hard rules.
+The native Stop hook only runs the Product Wiki maintenance loop.
+
+The approval gate is enforced deterministically at check time.
+
+`scripts/intent-lint.mjs` fails if an acceptance criterion is `active` without an approved or implemented proposal introducing it.
+`scripts/checks-lint.mjs` requires manifest coverage once a proposal is `implemented`, while approved proposals can remain pending compile.
+This runs inside `node scripts/product-wiki-check.mjs` and CI.
+
+Do not treat `CONSTITUTION.md` as enforcement.
+It records principles.
+The executable guardrails live in `scripts/`, CI, checks, and the host agent's permission settings.

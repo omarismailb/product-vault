@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(rm -rf /:*)",
+      "Bash(rm -rf ~:*)",
+      "Bash(rm -rf /*)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean -fd:*)",
+      "Bash(sudo:*)",
+      "Bash(mkfs:*)",
+      "Bash(dd if=:*)",
+      "Bash(chmod -R 777:*)"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel)}/scripts/hook-loop.mjs\" --event stop"
+          }
+        ]
+      }
+    ]
+  }
+}

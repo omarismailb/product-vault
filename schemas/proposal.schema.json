@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:product-wiki:schema:proposal",
+  "title": "Product Wiki proposal",
+  "type": "object",
+  "required": ["id", "type", "status", "request", "updated", "approval_status", "proposed_wiki_changes"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^proposal\\.[a-z0-9.-]+$"
+    },
+    "type": {
+      "const": "proposal"
+    },
+    "status": {
+      "enum": ["draft", "awaiting-approval", "approved", "rejected", "implemented"]
+    },
+    "request": {
+      "type": "string"
+    },
+    "updated": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "approval_status": {
+      "enum": ["awaiting-approval", "approved", "rejected"]
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "proposed_wiki_changes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

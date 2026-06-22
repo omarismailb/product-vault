@@ -1,0 +1,39 @@
+{
+  "name": "product-wiki",
+  "version": "2.3.0",
+  "description": "Product Wiki is an open-source harness for building software with coding agents.",
+  "author": {
+    "name": "Omar Ismail",
+    "url": "https://github.com/omarismailb"
+  },
+  "homepage": "https://github.com/omarismailb/product-wiki#readme",
+  "repository": "https://github.com/omarismailb/product-wiki",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "claude-code",
+    "agent-skills",
+    "product-management",
+    "spec-driven-development",
+    "software-architecture"
+  ],
+  "skills": "./.agents/skills/",
+  "interface": {
+    "displayName": "Product Wiki",
+    "shortDescription": "An open-source harness for building software with coding agents.",
+    "longDescription": "Product Wiki is an open-source harness for building software with coding agents. It is especially useful for non-technical builders who want to build complex products without the codebase turning messy.",
+    "developerName": "Omar Ismail",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/omarismailb/product-wiki",
+    "defaultPrompt": [
+      "Draft the first product wiki for this repo.",
+      "Turn this feature request into a wiki proposal.",
+      "Compile the approved proposal into checks and code."
+    ],
+    "brandColor": "#111827"
+  }
+}

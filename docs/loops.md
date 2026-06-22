@@ -1,0 +1,135 @@
+# Loops
+
+Product Wiki has loops, but they are not a magic background daemon.
+
+They are a small set of repeatable routines that keep the product wiki, checks, architecture, design-system notes, wiki anchors, and code from drifting apart.
+The overview page is part of that loop: it should stay accurate enough for a human or agent to understand the whole product before following links into smaller units.
+
+## The loop stack
+
+| Layer | What it does | Where it lives |
+|---|---|---|
+| Native Stop hook | Runs lightweight turn-end loop checks inside Codex and Claude Code | `.codex/config.toml`, `.claude/settings.json`, `scripts/hook-loop.mjs` |
+| Deterministic checks | Fast checks that can pass or fail without judgement | `scripts/`, `checks/manifest.json` |
+| Overview freshness | Checks that `wiki/overview.md` exists, links to the index, is linked from the index, and has been reviewed after active wiki units change | `scripts/wiki-overview-lint.mjs`, `routine.overview-freshness` |
+| Routine runner | Runs named maintenance routines and writes local reports | `routines/manifest.json`, `scripts/routine-runner.mjs` |
+| Source map | Maps `PW:` anchors in code back to wiki IDs | `scripts/wiki-anchor-lint.mjs`, `.product-wiki/source-map.json` |
+| Ratchet | Checks that current approval, check, and anchor coverage have not slipped backwards | `scripts/ratchet-lint.mjs` |
+| Agent reconciliation | Reads routine output, changed files, wiki units, and anchor reports, then fixes safe links or raises proposals | `.agents/skills/reconcile-wiki/` |
+| Optional automation | Runs routine checks on a schedule or in CI | `.github/workflows/product-wiki-routines.yml` |
+
+Routine reports are written under `.product-wiki/routine-runs/`.
+Hook loop reports are written under `.product-wiki/hook-loops/`.
+That folder is ignored by git.
+
+## Native Codex and Claude Code Stop loop
+
+Product Wiki wires into both agents through their native Stop hook:
+
+- Codex: `.codex/config.toml` runs `scripts/hook-loop.mjs` on `Stop`.
+- Claude Code: `.claude/settings.json` runs `scripts/hook-loop.mjs` on `Stop`.
+
+The Stop hook is intentionally lightweight.
+It looks at changed files, chooses the relevant deterministic routines, writes a local report, and prints follow-up guidance for the agent.
+
+It does not silently edit product intent.
+It does not run expensive checks on every turn unless the changed files justify it.
+
+## How a loop runs
+
+After implementation, before a larger feature, or on a schedule:
+
+```bash
+node scripts/routine-runner.mjs --all
+```
+
+For one routine:
+
+```bash
+node scripts/routine-runner.mjs --routine routine.traceability-drift
+```
+
+To inspect available routines:
+
+```bash
+node scripts/routine-runner.mjs --list
+```
+
+To run the same lightweight loop the Stop hook calls:
+
+```bash
+node scripts/hook-loop.mjs --event manual
+```
+
+To refresh the source map from wiki IDs to code anchors:
+
+```bash
+node scripts/wiki-anchor-lint.mjs --write-report
+```
+
+To run the ratchet check:
+
+```bash
+node scripts/ratchet-lint.mjs
+```
+
+## What is automatic
+
+The deterministic part is automatic:
+
+- turn-end Stop-hook checks in Codex and Claude Code
+- wiki structure linting
+- whole-product overview freshness
+- broken wiki-link detection
+- invalid `PW:` anchor detection
+- missing important `PW:` anchors surfaced for agent review
+- local source-map generation
+- proposal linting
+- acceptance-criteria-to-check coverage once a proposal is implemented
+- approval-gate enforcement (active criteria trace to an approved proposal)
+- check manifest execution
+- ratchet checks for current coverage gaps
+- routine manifest validation
+
+Three routines are deterministic: `wiki-health` runs wiki and link checks, `overview-freshness` runs the whole-product overview check, and `architecture-drift` runs `intent-lint`.
+`design-drift` remains an agent-review routine because comparing UI against design intent needs judgement, not a script.
+
+These commands run through the native Stop hook, `node scripts/product-wiki-check.mjs`, and CI.
+
+## What still needs an agent or human
+
+Some drift cannot be fixed safely by a script.
+
+Examples:
+
+- a feature duplicates an existing capability
+- an architecture decision no longer matches the code
+- a design-system rule is contradicted by a new UI
+- an assumption has become stale
+- a missing check requires product judgement
+- an important code path needs a product decision before it can be anchored honestly
+
+For those, run the `reconcile-wiki` skill.
+It should auto-fix objective links when safe and raise proposals for anything that changes product intent.
+
+That split is deliberate best practice:
+
+- scripts and the Stop hook handle deterministic work
+- skills handle workflow and judgement
+- reviewer subagents handle fresh-context review when needed
+- CI or Codex automations handle scheduled maintenance
+
+## Recommended cadence
+
+- After implementation: `routine.traceability-drift`, `routine.verification`, `routine.source-map`, and `routine.ratchet`.
+- Weekly or before a large feature: `routine.wiki-health`.
+- When wiki units have changed: `routine.overview-freshness`.
+- After several features: `routine.architecture-drift`.
+- After UI-heavy changes: `routine.design-drift`.
+
+## Important boundary
+
+Product Wiki should only claim determinism where a command runs and can fail.
+
+The loops make drift visible.
+They do not silently rewrite product intent.

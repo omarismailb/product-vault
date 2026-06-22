@@ -1,0 +1,91 @@
+{
+  "name": "product-wiki",
+  "version": "2.3.0",
+  "description": "Product Wiki is an open-source harness for building software with coding agents.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omarismailb/product-wiki.git"
+  },
+  "bugs": {
+    "url": "https://github.com/omarismailb/product-wiki/issues"
+  },
+  "homepage": "https://github.com/omarismailb/product-wiki#readme",
+  "files": [
+    "bin/",
+    "scripts/",
+    "schemas/",
+    "templates/",
+    "routines/",
+    "checks/",
+    "wiki/",
+    "intake/",
+    ".agents/",
+    ".claude/",
+    ".codex/",
+    ".claude-plugin/",
+    ".codex-plugin/",
+    ".github/",
+    "checks/README.md",
+    "evals/golden/README.md",
+    "tests/README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "CONSTITUTION.md",
+    "product-wiki.json",
+    "VERSION"
+  ],
+  "keywords": [
+    "ai-agents",
+    "codex",
+    "claude-code",
+    "product-management",
+    "spec-driven-development",
+    "agent-harness"
+  ],
+  "type": "module",
+  "bin": {
+    "product-wiki": "bin/product-wiki.mjs"
+  },
+  "scripts": {
+    "check": "node scripts/product-wiki-check.mjs",
+    "doctor": "node scripts/doctor.mjs",
+    "sync:dry-run": "node scripts/sync-managed.mjs --target .",
+    "wiki:lint": "node scripts/wiki-lint.mjs",
+    "wiki-overview:lint": "node scripts/wiki-overview-lint.mjs",
+    "wiki-anchor:lint": "node scripts/wiki-anchor-lint.mjs",
+    "source-map:write": "node scripts/wiki-anchor-lint.mjs --write-report",
+    "proposal:lint": "node scripts/proposal-lint.mjs",
+    "proposal-traceability:lint": "node scripts/proposal-traceability-lint.mjs",
+    "checks:lint": "node scripts/checks-lint.mjs",
+    "checks:run": "node scripts/checks-lint.mjs --run",
+    "lifecycle:lint": "node scripts/lifecycle-lint.mjs",
+    "intent:lint": "node scripts/intent-lint.mjs",
+    "ratchet:lint": "node scripts/ratchet-lint.mjs",
+    "ratchet:update": "node scripts/ratchet-lint.mjs --update-baseline",
+    "wiki-link:lint": "node scripts/wiki-link-lint.mjs",
+    "wiki-connectivity:lint": "node scripts/wiki-connectivity-lint.mjs",
+    "wiki-retired-link:lint": "node scripts/wiki-retired-link-lint.mjs",
+    "managed-drift:lint": "node scripts/managed-drift-lint.mjs",
+    "script-tests": "node scripts/script-tests.mjs",
+    "design:lint": "node scripts/design-lint.mjs",
+    "design-token:lint": "node scripts/design-token-lint.mjs",
+    "prose:lint": "node scripts/prose-lint.mjs",
+    "prose:update": "node scripts/prose-lint.mjs --update-baseline",
+    "eval": "node scripts/eval-golden.mjs",
+    "hooks:check": "node scripts/hook-loop.mjs --check",
+    "plugin:lint": "node scripts/plugin-lint.mjs",
+    "routines:check": "node scripts/routine-runner.mjs --check",
+    "routines:list": "node scripts/routine-runner.mjs --list",
+    "routines:run": "node scripts/routine-runner.mjs --all",
+    "repair:contracts": "node scripts/repair-contracts.mjs --write",
+    "skill:lint": "node scripts/skill-lint.mjs",
+    "template:lint": "node scripts/template-lint.mjs",
+    "test": "npm run check",
+    "self-test": "node scripts/self-test.mjs",
+    "import:coverage": "node scripts/import-coverage.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
