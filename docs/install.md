@@ -8,7 +8,7 @@ npx product-wiki@latest sync      # re-sync managed files (upgrade)
 npx product-wiki@latest init --dry-run   # preview, write nothing
 ```
 
-Pin a version for a reproducible install (`npx product-wiki@2.3.0 init`).
+Pin a version for a reproducible install (`npx product-wiki@2.3.1 init`).
 
 For a tamper-evident install you can verify against source, install from a pinned commit SHA on GitHub instead of a mutable tag:
 

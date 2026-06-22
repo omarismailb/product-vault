@@ -134,6 +134,16 @@ if (importInventory) {
   }
 }
 
+const importProposal = read("templates/import-proposal-template.md");
+if (importProposal) {
+  if (/A proposal written to this template passes the gate/i.test(importProposal)) {
+    errors.push(
+      "import-proposal-template.md must not claim the unfilled template passes the gate; " +
+        "say a filled proposal passes after placeholders are replaced.",
+    );
+  }
+}
+
 for (const rel of ["templates/check-manifest-entry.json", "templates/checks-manifest-starter.json"]) {
   try {
     const text = read(rel);

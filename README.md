@@ -59,7 +59,7 @@ That installs the managed harness, activates routing in `AGENTS.md` / `CLAUDE.md
 In a repo with no `package.json`, run the gate directly with `node scripts/product-wiki-check.mjs`.
 Then open the repo in Claude Code or Codex and describe what you want to build. It routes through a proposal before any code.
 
-Pin a version (`npx product-wiki@2.3.0 init`) for a reproducible install. Use `sync` instead of `init` to upgrade later, and `--dry-run` to preview.
+Pin a version (`npx product-wiki@2.3.1 init`) for a reproducible install. Use `sync` instead of `init` to upgrade later, and `--dry-run` to preview.
 
 ## How the loop works
 

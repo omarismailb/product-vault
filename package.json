@@ -1,6 +1,6 @@
 {
   "name": "product-wiki",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Product Wiki is an open-source harness for building software with coding agents.",
   "license": "MIT",
   "repository": {
@@ -20,6 +20,8 @@
     "checks/",
     "wiki/",
     "intake/",
+    "docs/",
+    "examples/",
     ".agents/",
     ".claude/",
     ".codex/",
@@ -32,6 +34,11 @@
     "AGENTS.md",
     "CLAUDE.md",
     "CONSTITUTION.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SECURITY.md",
+    "SUPPORT.md",
     "product-wiki.json",
     "VERSION"
   ],

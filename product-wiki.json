@@ -1,6 +1,6 @@
 {
   "name": "product-wiki",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "repository": "https://github.com/omarismailb/product-wiki",
   "license": "MIT",
   "minimum_node": "18",
@@ -57,6 +57,7 @@
       "package.json",
       "docs",
       "examples",
+      "media",
       "tests/skill-pressure",
       "tests/fixtures",
       "tests/unit",

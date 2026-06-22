@@ -6,7 +6,9 @@ Use this when writing or updating units under `wiki/` during apply-wiki-change.
 
 Link units two ways.
 
-In prose, use a standard relative markdown link, e.g. `[Remember material](../jobs/remember-material.md)`, which renders and clicks in GitHub, Obsidian, VS Code, and plain editors.
+In prose, use standard relative markdown links to real unit files.
+For example, from a story unit, link to a related job with a path shaped like `../jobs/<job-slug>.md`.
+These links render and click in GitHub, Obsidian, VS Code, and plain editors.
 
 In the frontmatter `links:` array, list the bare unit ids (the machine-readable graph).
 

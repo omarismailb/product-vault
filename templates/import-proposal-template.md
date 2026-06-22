@@ -11,7 +11,8 @@ updated: YYYY-MM-DD
 This is the proposal template for a brownfield import (one capability at a time).
 It is a superset of templates/proposal-template.md: it keeps every section proposal-lint
 requires and adds the import-specific sections (Import scope, Confidence summary, Source
-evidence, What code cannot tell us). A proposal written to this template passes the gate.
+evidence, What code cannot tell us). A filled proposal written to this template passes the gate
+after the placeholder frontmatter and example IDs are replaced with real values.
 When the user approves, set status: approved and approval_status: approved, and add
 approved_by and approved_at to the frontmatter above.
 -->

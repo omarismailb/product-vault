@@ -75,6 +75,35 @@ function readJson(rel) {
   }
 }
 
+function readText(rel) {
+  return fs.readFileSync(path.join(ROOT, rel), "utf8");
+}
+
+function normalizePackageRel(rel) {
+  return rel.replace(/\\/g, "/").replace(/^\.\//, "").replace(/\/$/, "");
+}
+
+function packageFilesInclude(files, rel) {
+  const clean = normalizePackageRel(rel);
+  return files.some((entry) => {
+    const item = normalizePackageRel(entry);
+    if (!item) return false;
+    const full = path.join(ROOT, item);
+    const isDirectory = entry.endsWith("/") || (fs.existsSync(full) && fs.statSync(full).isDirectory());
+    if (isDirectory) return clean === item || clean.startsWith(`${item}/`);
+    return clean === item;
+  });
+}
+
+function compareSemver(a, b) {
+  const left = a.split(".").map((part) => Number(part));
+  const right = b.split(".").map((part) => Number(part));
+  for (let i = 0; i < 3; i += 1) {
+    if (left[i] !== right[i]) return left[i] - right[i];
+  }
+  return 0;
+}
+
 function walk(dir) {
   if (!fs.existsSync(dir)) return [];
   const out = [];
@@ -270,6 +299,106 @@ for (const file of committableFiles(ROOT)) {
   }
 }
 validated.push(`${scanned} committable file(s) scanned for local paths and secrets`);
+
+// Source-release integrity: public launch surfaces must agree before publish.
+// This catches stale changelog claims, README links to files omitted from the npm
+// tarball, and CLI help that points at an older install path.
+if (isSourceRepo && exists("package.json")) {
+  const pkg = readJson("package.json");
+  const pkgVersion = pkg?.version;
+  const packageFiles = Array.isArray(pkg?.files) ? pkg.files : [];
+
+  if (pkgVersion) {
+    const versionFile = exists("VERSION") ? readText("VERSION").trim() : null;
+    const versionChecks = [
+      ["VERSION", versionFile],
+      ["product-wiki.json", manifest?.version],
+      [".claude-plugin/plugin.json", exists(".claude-plugin/plugin.json") ? readJson(".claude-plugin/plugin.json")?.version : null],
+      [".codex-plugin/plugin.json", exists(".codex-plugin/plugin.json") ? readJson(".codex-plugin/plugin.json")?.version : null],
+    ];
+    for (const [rel, value] of versionChecks) {
+      if (value && value !== pkgVersion) errors.push(`${rel} version (${value}) does not match package.json (${pkgVersion})`);
+    }
+    validated.push("version fields match package.json");
+  }
+
+  if (exists("CHANGELOG.md") && pkgVersion) {
+    const firstPublicVersion = "2.3.0";
+    const changelog = readText("CHANGELOG.md");
+    if (!changelog.includes(`first public release is \`${firstPublicVersion}\``)) {
+      errors.push(`CHANGELOG.md must state that ${firstPublicVersion} is the first public release.`);
+    }
+    const publicReleaseHeadings = new Set();
+    for (const match of changelog.matchAll(/^##\s+(\d+\.\d+\.\d+)\b/gm)) {
+      publicReleaseHeadings.add(match[1]);
+      if (compareSemver(match[1], firstPublicVersion) < 0) {
+        errors.push(`CHANGELOG.md presents pre-public version ${match[1]} as a public release heading; use a non-release milestone heading instead.`);
+      }
+    }
+    if (!publicReleaseHeadings.has(pkgVersion)) {
+      errors.push(`CHANGELOG.md is missing a public release heading for current package version ${pkgVersion}.`);
+    }
+    for (const match of changelog.matchAll(/available on the npm registry as `product-wiki@(\d+\.\d+\.\d+)`/g)) {
+      if (!publicReleaseHeadings.has(match[1])) errors.push(`CHANGELOG.md claims npm version product-wiki@${match[1]} without a public release heading.`);
+    }
+    for (const match of changelog.matchAll(/tagged `v(\d+\.\d+\.\d+)`/g)) {
+      if (!publicReleaseHeadings.has(match[1])) errors.push(`CHANGELOG.md claims git tag v${match[1]} without a public release heading.`);
+    }
+    validated.push("CHANGELOG public release claims match package version");
+  }
+
+  if (packageFiles.length) {
+    const requiredPackagedPaths = [
+      "docs/",
+      "examples/",
+      "CHANGELOG.md",
+      "CONTRIBUTING.md",
+      "CODE_OF_CONDUCT.md",
+      "SECURITY.md",
+      "SUPPORT.md",
+    ];
+    for (const rel of requiredPackagedPaths) {
+      if (!packageFilesInclude(packageFiles, rel)) {
+        errors.push(`package.json files[] omits ${rel}, but README/npm users need it.`);
+      }
+    }
+
+    if (exists("README.md")) {
+      const autoIncluded = new Set(["README", "README.md", "LICENSE", "LICENCE", "package.json"]);
+      const readme = readText("README.md");
+      for (const match of readme.matchAll(/!?\[[^\]\n]+\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g)) {
+        const raw = match[1].replace(/^<|>$/g, "");
+        if (/^(https?:|mailto:|#)/.test(raw)) continue;
+        const filePart = raw.split("#")[0];
+        if (!filePart) continue;
+        const rel = normalizePackageRel(path.posix.normalize(filePart));
+        if (rel.startsWith("../")) continue;
+        if (!exists(rel)) {
+          errors.push(`README.md links to missing relative path: ${raw}`);
+          continue;
+        }
+        if (!autoIncluded.has(rel) && !packageFilesInclude(packageFiles, rel)) {
+          errors.push(`README.md links to ${raw}, but package.json files[] omits it from the npm tarball.`);
+        }
+      }
+      validated.push("README relative links resolve inside packaged npm contents");
+    }
+  }
+
+  if (exists("bin/product-wiki.mjs") && pkgVersion) {
+    const cli = readText("bin/product-wiki.mjs");
+    if (!cli.includes("npx product-wiki@latest init")) {
+      errors.push("bin/product-wiki.mjs help must show the canonical npm install path: npx product-wiki@latest init");
+    }
+    if (!cli.includes(`npx product-wiki@${pkgVersion} init`)) {
+      errors.push(`bin/product-wiki.mjs help must show the pinned npm install path: npx product-wiki@${pkgVersion} init`);
+    }
+    if (/github:omarismailb\/product-wiki#<tag>|release tag|Pin to a release tag/.test(cli)) {
+      errors.push("bin/product-wiki.mjs still recommends mutable git tags; use npm versions or 40-character commit SHAs instead.");
+    }
+    validated.push("CLI help uses npm-first install guidance");
+  }
+}
 
 // Engine drift: warn (don't fail) when the running Node major is below the
 // declared minimum, so an opaque test failure becomes a clear message instead.

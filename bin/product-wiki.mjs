@@ -4,9 +4,9 @@
 //
 // One-command install/upgrade, no global install needed:
 //
-//   npx github:omarismailb/product-wiki#v2.3.0 init      install into the current repo
-//   npx github:omarismailb/product-wiki#v2.3.0 sync      re-sync managed files (upgrade)
-//   npx github:omarismailb/product-wiki#v2.3.0 init --dry-run   preview without writing
+//   npx product-wiki@latest init      install into the current repo
+//   npx product-wiki@latest sync      re-sync managed files (upgrade)
+//   npx product-wiki@latest init --dry-run   preview without writing
 //
 // It wraps scripts/sync-managed.mjs (the ownership-aware copy) and then runs the
 // harness checks, so the documented install is one line instead of a temp-dir dance.
@@ -32,12 +32,14 @@ if (cmd === "help" || argv.includes("--help") || argv.includes("-h")) {
   console.log(`Product Wiki: install or upgrade the harness in the current repo.
 
 Usage (no global install needed):
-  npx github:omarismailb/product-wiki#<tag> init        install into the current directory
-  npx github:omarismailb/product-wiki#<tag> sync        re-sync managed files (upgrade)
-  npx github:omarismailb/product-wiki#<tag> init --dry-run   preview the plan, write nothing
+  npx product-wiki@latest init         install into the current directory
+  npx product-wiki@latest sync         re-sync managed files (upgrade)
+  npx product-wiki@latest init --dry-run   preview the plan, write nothing
+  npx product-wiki@2.3.1 init          pin the published npm version
 
 Run from the root of the repo you want to add Product Wiki to.
-Pin to a release tag (#v2.3.0) for a reproducible install.`);
+For a tamper-evident source install, use a 40-character GitHub commit SHA:
+  npx github:omarismailb/product-wiki#<40-char-commit-sha> init`);
   process.exit(0);
 }
 

@@ -25,7 +25,10 @@ Keep it short enough to scan before every meaningful change.
 Update or review it whenever a change affects the whole-product picture.
 
 Use `wiki/index.md` as the linked catalog.
-Link units in prose with standard relative markdown links, such as `[Stories](stories/)` or `[Remember material](../jobs/remember-material.md)`, so GitHub, Cursor previews, Obsidian, Codex, and Claude Code can all follow the graph. Do not use Obsidian-only `[[type.slug]]` links; they ship as dead text on GitHub.
+Link units in prose with standard relative markdown links so GitHub, Cursor previews, Obsidian, Codex, and Claude Code can all follow the graph.
+From the repo root, link to real wiki paths such as `wiki/stories/`.
+From a wiki unit, link to related units with paths such as `../jobs/<job-slug>.md`.
+Do not use Obsidian-only `[[type.slug]]` links; they ship as dead text on GitHub.
 Use stable IDs in frontmatter, and list related unit ids in the frontmatter `links:` array (the machine-readable graph).
 
 Core units:
